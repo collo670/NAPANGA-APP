@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="sw" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f2b5e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- SECURITY META TAGS -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <!-- CONTENT SECURITY POLICY -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://firestore.googleapis.com https://firebasestorage.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  
+  <!-- PWA MANIFEST -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  
+  <!-- PRECONNECT FOR PERFORMANCE -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  
+  <!-- MODERN FONT SYSTEM WITH DISPLAY SWAP -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" integrity="sha384-abc123" crossorigin="anonymous">
+  
+  <!-- MAIN STYLESHEET -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <title>NAPANGA - Tafuta Nyumba Yako | Dar es Salaam</title>
+</head>
+<body>
+  <div id="app">
+    <!-- MODERN HEADER -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon">N</div>
+          <span class="brand-name">NAPANGA</span>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="dark-mode-toggle" title="Badili mwangaza" aria-label="Toggle dark mode">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="notification-btn" title="Arifa" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODERN HERO SECTION -->
+    <section class="hero-modern">
+      <div class="hero-content">
+        <h1>Tafuta Nyumba <br>Yako Bila Stress</h1>
+        <p>📍 Dar es Salaam • Zaidi ya mali 500+</p>
+      </div>
+    </section>
+
+    <!-- MODERN SEARCH BAR -->
+    <div class="search-container">
+      <div class="search-bar-modern">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" stroke-width="2"/>
+            <path d="M21 21l-4.35-4.35" stroke-width="2"/>
+          </svg>
+          <input type="text" placeholder="Tafuta eneo, jina la nyumba..." aria-label="Search properties">
+        </div>
+        <button class="filter-btn-modern" id="filter-btn" aria-label="Open filters">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" aria-hidden="true">
+            <path d="M3 4h18v2l-6 6v6l-4 2v-8L3 6V4z"/>
+          </svg>
+          Chuja
+        </button>
+      </div>
+    </div>
+
+    <!-- MODERN FILTER CHIPS -->
+    <div class="filter-chips" role="group" aria-label="Quick filters">
+      <button class="chip active" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M20 7H4M16 12H8M12 17h0"/>
+        </svg>
+        Nyumba zote
+      </button>
+      <button class="chip" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M3 10h18M5 6h14M8 14h8M12 18h0"/>
+        </svg>
+        Karibu na mimi
+      </button>
+      <button class="chip" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="2"/>
+          <path d="M12 2v4M22 12h-4M12 22v-4M4 12H2M6.5 6.5l3 3M17.5 6.5l-3 3M17.5 17.5l-3-3M6.5 17.5l3-3"/>
+        </svg>
+        Karibu
+      </button>
+      <button class="chip" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M12 2v20M2 12h20"/>
+        </svg>
+        Mpya
+      </button>
+      <button class="chip" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M4 4v16h16V4H4z"/>
+        </svg>
+        Vipindi
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- SECTION TITLE -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px; margin-bottom: 16px;">
+        <h2 class="section-title">Mali zilizopendwa ❤️</h2>
+        <a href="#" class="section-link">Angalia zote</a>
+      </div>
+
+      <!-- MODERN LISTING CARDS -->
+      <div class="listing-grid">
+        <!-- CARD 1 - MODERN DESIGN -->
+        <article class="listing-card-modern animate-fade-up">
+          <div class="card-image-wrapper">
+            <img src="Assets/nyumba1.png" alt="Apartment ya Kisasa - Mikocheni" class="card-image" loading="lazy">
+            <span class="card-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.07 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Imethibitishwa
+            </span>
+            <span class="card-price-tag">
+              <span>TSh</span> 850,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Apartment ya Kisasa</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" style="cursor: pointer;" data-wishlist data-property-id="prop-001" aria-label="Add to favorites" role="button" tabindex="0">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Mikocheni, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 3
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 2
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <path d="M8 6V4h8v2"/>
+                </svg>
+                Parking
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" type="button" aria-label="Share property">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2 -->
+        <article class="listing-card-modern animate-fade-up" style="animation-delay: 0.1s;">
+          <div class="card-image-wrapper">
+            <img src="Assets/nyumba2.png" alt="Nyumba ya Kifahari - Masaki" class="card-image" loading="lazy">
+            <span class="card-badge" style="background: rgba(255,107,74,0.95); color: white;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/>
+              </svg>
+              SPECIAL OFFER
+            </span>
+            <span class="card-price-tag">
+              <span>TSh</span> 1,200,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Nyumba ya Kifahari</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" style="cursor: pointer;" data-wishlist data-property-id="prop-002" aria-label="Add to favorites" role="button" tabindex="0">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Masaki, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 4
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 3
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4M12 8h.01"/>
+                </svg>
+                Pool
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" type="button" aria-label="Share property">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3 -->
+        <article class="listing-card-modern animate-fade-up" style="animation-delay: 0.2s;">
+          <div class="card-image-wrapper">
+            <img src="Assets/Nyumba3.png" alt="Studio ya Kisasa - Ubungo" class="card-image" loading="lazy">
+            <span class="card-badge" style="background: var(--success); color: white;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+              PRICE DROP
+            </span>
+            <span class="card-price-tag">
+              <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px; margin-right: 6px;">TSh 950,000</span>
+              <span>TSh</span> 750,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Studio ya Kisasa</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" style="cursor: pointer;" data-wishlist data-property-id="prop-003" aria-label="Add to favorites" role="button" tabindex="0">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Ubungo, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 1
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 1
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/>
+                </svg>
+                WiFi
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" type="button" aria-label="Share property">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- VIEW MORE BUTTON -->
+      <div style="padding: 20px; text-align: center;">
+        <button class="view-more-btn" type="button">
+          Onyesha zaidi
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M7 13l5 5 5-5M7 7l5 5 5-5"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- MODERN BOTTOM NAVIGATION -->
+    <nav class="bottom-nav-modern" aria-label="Main navigation">
+      <a href="#" class="nav-item-modern active" aria-current="page">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Nyumbani</span>
+      </a>
+      <a href="#" class="nav-item-modern">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span>Favoriti</span>
+      </a>
+      <a href="#" class="nav-item-modern">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 8 8 0 0 0-14.46 0A1.65 1.65 0 0 0 4.6 15"/>
+        </svg>
+        <span>Tafuta</span>
+      </a>
+      <a href="#" class="nav-item-modern">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+        </svg>
+        <span>Ongeza</span>
+      </a>
+      <a href="#" class="nav-item-modern">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path d="M4 4h16v16H4z"/>
+          <path d="M9 9h6v6H9z"/>
+          <path d="M15 9l-6 6"/>
+        </svg>
+        <span>Akaunti</span>
+      </a>
+    </nav>
+
+    <!-- MODERN FILTER MODAL (Hidden by default) -->
+    <div id="filter-modal" class="filter-modal-modern" role="dialog" aria-modal="true" aria-labelledby="filter-title">
+      <div class="filter-header">
+        <h2 id="filter-title">Chuja Mali</h2>
+        <button class="icon-btn" id="close-filter" aria-label="Close filter modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="filter-body">
+        <div class="filter-section">
+          <div class="filter-section-title">Aina ya Mali</div>
+          <div class="filter-options-grid" role="group" aria-label="Property type">
+            <button class="filter-option selected" data-filter-id="type-nyumba" type="button">Nyumba</button>
+            <button class="filter-option" data-filter-id="type-apartment" type="button">Apartment</button>
+            <button class="filter-option" data-filter-id="type-bungalow" type="button">Bungalow</button>
+            <button class="filter-option" data-filter-id="type-studio" type="button">Studio</button>
+            <button class="filter-option" data-filter-id="type-chumba" type="button">Chumba</button>
+            <button class="filter-option" data-filter-id="type-biashara" type="button">Biashara</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Eneo</div>
+          <div class="filter-options-grid" role="group" aria-label="Location">
+            <button class="filter-option" data-filter-id="area-kinondoni" type="button">Kinondoni</button>
+            <button class="filter-option" data-filter-id="area-ilala" type="button">Ilala</button>
+            <button class="filter-option" data-filter-id="area-temeke" type="button">Temeke</button>
+            <button class="filter-option" data-filter-id="area-ubungo" type="button">Ubungo</button>
+            <button class="filter-option" data-filter-id="area-kigamboni" type="button">Kigamboni</button>
+            <button class="filter-option" data-filter-id="area-mikocheni" type="button">Mikocheni</button>
+            <button class="filter-option" data-filter-id="area-masaki" type="button">Masaki</button>
+            <button class="filter-option" data-filter-id="area-mbezi" type="button">Mbezi</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Bei (TSh)</div>
+          <div style="display: flex; gap: 12px;">
+            <input type="number" class="price-input" placeholder="Kuanzia" aria-label="Minimum price" min="0">
+            <input type="number" class="price-input" placeholder="Mpaka" aria-label="Maximum price" min="0">
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Vipengele</div>
+          <div class="filter-options-grid" role="group" aria-label="Amenities">
+            <button class="filter-option" data-filter-id="feat-wifi" type="button">WiFi</button>
+            <button class="filter-option" data-filter-id="feat-parking" type="button">Parking</button>
+            <button class="filter-option" data-filter-id="feat-pool" type="button">Swimming Pool</button>
+            <button class="filter-option" data-filter-id="feat-gym" type="button">Gym</button>
+            <button class="filter-option" data-filter-id="feat-security" type="button">Security</button>
+            <button class="filter-option" data-filter-id="feat-generator" type="button">Generator</button>
+          </div>
+        </div>
+      </div>
+      <div class="filter-footer">
+        <button type="button" style="flex: 1; padding: 14px; background: transparent; border: 1px solid var(--border); border-radius: 16px; font-weight: 600; cursor: pointer;">Futa</button>
+        <button type="button" style="flex: 1; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 16px; font-weight: 600; cursor: pointer;">Omba vichujio (0)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN JAVASCRIPT -->
+  <script src="js/app.js"></script>
+</body>
+</html>

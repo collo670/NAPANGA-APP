@@ -1,0 +1,106 @@
+{
+  "name": "NAPANGA",
+  "version": "1.0.0",
+  "description": "Property listing application for Dar es Salaam, Tanzania",
+  "created": "2026-02-12T22:40:00Z",
+  "lastModified": "2026-02-12T22:40:00Z",
+  "author": "NAPANGA Team",
+  "files": [
+    {
+      "path": "index.html",
+      "type": "html",
+      "description": "Main application entry point",
+      "required": true
+    },
+    {
+      "path": "css/styles.css",
+      "type": "stylesheet",
+      "description": "Main application styles",
+      "required": true
+    },
+    {
+      "path": "js/app.js",
+      "type": "javascript",
+      "description": "Main application logic",
+      "required": true
+    },
+    {
+      "path": "backup.html",
+      "type": "html",
+      "description": "Original monolithic backup file",
+      "required": false
+    },
+    {
+      "path": "Assets/nyumba1.png",
+      "type": "image",
+      "description": "Property listing image 1",
+      "required": false
+    },
+    {
+      "path": "Assets/nyumba2.png",
+      "type": "image",
+      "description": "Property listing image 2",
+      "required": false
+    },
+    {
+      "path": "Assets/Nyumba3.png",
+      "type": "image",
+      "description": "Property listing image 3",
+      "required": false
+    },
+    {
+      "path": "Assets/mfano.png",
+      "type": "image",
+      "description": "Example property image",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "external": {
+      "fonts": [
+        {
+          "provider": "Google Fonts",
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter",
+          "fallback": "system-ui, -apple-system, sans-serif"
+        }
+      ],
+      "apis": [
+        {
+          "name": "Firestore",
+          "url": "https://firestore.googleapis.com",
+          "purpose": "Database"
+        },
+        {
+          "name": "Firebase Storage",
+          "url": "https://firebasestorage.googleapis.com",
+          "purpose": "File storage"
+        }
+      ]
+    }
+  },
+  "security": {
+    "contentSecurityPolicy": true,
+    "xssProtection": true,
+    "frameProtection": "DENY",
+    "contentTypeOptions": "nosniff",
+    "referrerPolicy": "strict-origin-when-cross-origin"
+  },
+  "features": {
+    "darkMode": true,
+    "responsive": true,
+    "pwa": false,
+    "offline": false
+  },
+  "backup": {
+    "frequency": "daily",
+    "retention": "30 days",
+    "includeAssets": true,
+    "compression": "none"
+  },
+  "restore": {
+    "verifyIntegrity": true,
+    "preserveTimestamps": true,
+    "overwriteExisting": false
+  }
+}

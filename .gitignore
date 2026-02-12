@@ -1,0 +1,112 @@
+# NAPANGA Project - Git Ignore File
+
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+bower_components/
+vendor/
+
+# ============================================
+# Build Output
+# ============================================
+dist/
+build/
+out/
+*.min.js
+*.min.css
+
+# ============================================
+# Backup Files
+# ============================================
+backups/
+*.bak
+*.backup
+*.old
+*~
+
+# ============================================
+# IDE and Editor Files
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+Thumbs.db
+
+# ============================================
+# OS Generated Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================
+# Environment Files
+# ============================================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ============================================
+# Temporary Files
+# ============================================
+tmp/
+temp/
+*.tmp
+*.temp
+.cache/
+
+# ============================================
+# Test Coverage
+# ============================================
+coverage/
+.nyc_output/
+
+# ============================================
+# Package Manager Lock Files (optional)
+# ============================================
+# package-lock.json
+# yarn.lock
+
+# ============================================
+# Compiled Files
+# ============================================
+*.class
+*.dll
+*.exe
+*.o
+*.pyc
+*.pyo
+
+# ============================================
+# Archive Files
+# ============================================
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# Project Specific
+# ============================================
+# Keep the backup directory structure but ignore contents
+# backups/*
+# !backups/.gitkeep
