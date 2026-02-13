@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="sw" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1e40af">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  
+  <!-- CRITICAL CSS INLINED FOR LCP OPTIMIZATION -->
+  <style>
+    :root { 
+      --primary: #1e40af; 
+      --secondary: #047857; 
+      --surface: #ffffff; 
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+    }
+    
+    /* DARK MODE SUPPORT */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: #1a1a1a;
+        --border: #2d2d2d;
+      }
+      body {
+        background-color: #0f0f0f;
+        color: #e5e7eb;
+      }
+      .hero-section, .Hero-section, header, .bottom-nav, #filter-modal {
+        background: #1a1a1a;
+      }
+      .listing-card, #no-results {
+        background: #2a2a2a;
+        border-color: #3a3a3a;
+      }
+    }
+    
+    body[data-dark-mode="true"] {
+      background-color: #0f0f0f;
+      color: #e5e7eb;
+    }
+    body[data-dark-mode="true"] .hero-section,
+    body[data-dark-mode="true"] .Hero-section,
+    body[data-dark-mode="true"] header,
+    body[data-dark-mode="true"] .bottom-nav,
+    body[data-dark-mode="true"] #filter-modal {
+      background: #1a1a1a;
+    }
+    body[data-dark-mode="true"] .listing-card {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+      line-height: 1.5; 
+      color: #1e293b; 
+      background-color: #f8fafc; 
+      -webkit-text-size-adjust: 100%;
+      touch-action: manipulation;
+      scroll-behavior: smooth;
+    }
+    .offline-banner { 
+      background: #ef4444; 
+      color: white; 
+      text-align: center; 
+      padding: 8px; 
+      font-size: 14px; 
+      display: none; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .skeleton { 
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); 
+      background-size: 200% 100%; 
+      animation: shimmer 1.5s infinite; 
+      border-radius: 12px; 
+      min-height: 160px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @media (prefers-reduced-motion) { .skeleton { animation: none; } }
+    
+    /* DATA SAVER MODE - CRITICAL FOR TANZANIA */
+    .data-saver .listing-img { 
+      filter: blur(2px); 
+      content-visibility: auto; 
+    }
+    .data-saver .high-res { display: none; }
+    
+    /* THUMB-FRIENDLY TOUCH TARGETS */
+    .touch-target { min-height: 48px; min-width: 48px; }
+    .bottom-nav {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      background: white;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      z-index: 120;
+      border-radius: 16px;
+      overflow: hidden;
+      padding: 6px 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-item {
+      flex: 1;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border-radius: 8px;
+      position: relative;
+    }
+    .nav-item:hover { color: var(--primary); }
+    .nav-item:focus-visible { 
+      outline: 2px solid var(--primary); 
+      outline-offset: 2px; 
+    }
+    .nav-item.active { color: var(--primary); font-weight: 600; }
+    .nav-item-badge {
+      position: absolute;
+      top: 0;
+      right: 4px;
+      background: #ef4444;
+      color: white;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .nav-icon {
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f8fafc;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      margin-bottom: 2px;
+    }
+    
+    /* FILTER BOTTOM SHEET - CSS ONLY MODAL */
+    #filter-modal { 
+      display: none; 
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      max-height: 85vh; 
+      background: white; 
+      border-radius: 16px 16px 0 0; 
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.1); 
+      z-index: 1000; 
+      transform: translateY(100%); 
+      transition: transform 0.3s ease-out; 
+      overflow: hidden;
+    }
+    #filter-toggle:checked ~ #filter-modal { 
+      display: block; 
+      transform: translateY(0); 
+      animation: slideUp 0.3s ease-out; 
+    }
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .modal-overlay { 
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background: rgba(0,0,0,0.4); 
+      z-index: 999;
+      animation: fadeIn 0.3s ease-out; 
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    #filter-toggle:checked ~ .modal-overlay { display: block; }
+    
+    /* LISTING CARD OPTIMIZATIONS */
+    .listing-card { 
+      background: white; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+      margin-bottom: 16px; 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .listing-card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12); 
+    }
+    .listing-card:active { transform: scale(0.99); }
+    .listing-card-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #ef4444;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      animation: slideIn 0.3s ease-out;
+    }
+    /* BADGE VARIANTS */
+    .listing-card-badge.hot { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .listing-card-badge.new { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .listing-card-badge.price-drop { background: linear-gradient(135deg, #10b981, #059669); }
+    .listing-card-badge.verified { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px) rotate(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) rotate(0);
+      }
+    }
+    .listing-card-type {
+      position: absolute;
+      bottom: 108px;
+      left: 8px;
+      background: rgba(255,255,255,0.95);
+      color: var(--primary);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .listing-img { 
+      width: 100%; 
+      height: 160px; 
+      object-fit: cover; 
+      background: #f1f5f9; 
+      display: block; 
+    }
+    .price-tag { 
+      font-size: 22px; 
+      font-weight: 700; 
+      color: var(--secondary); 
+      margin: 4px 0; 
+      font-variant-numeric: tabular-nums;
+    }
+    .location-badge { 
+      background: #dbeafe; 
+      color: #0c4a6e;
+      padding: 4px 10px; 
+      border-radius: 20px; 
+      font-size: 12px; 
+      font-weight: 500;
+      display: inline-block;
+    }
+    
+    /* VERIFICATION BADGES */
+    .verification-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #dcfce7;
+      color: #166534;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+    .verification-badge.owner { background: #dbeafe; color: #0c4a6e; }
+    .verification-badge.identity { background: #f3e8ff; color: #6b21a8; }
+    .verification-badge.address { background: #fef3c7; color: #92400e; }
+    
+    /* PROPERTY STATS GRID */
+    .property-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #64748b;
+      display: block;
+    }
+    .stat-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    
+    /* AMENITIES GRID */
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 12px 0;
+    }
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      font-size: 13px;
+      color: #475569;
+    }
+    .amenity-icon {
+      font-size: 16px;
+    }
+    .amenity:hover {
+      background: #f1f5f9;
+      border-radius: 6px;
+    }
+    
+    /* PROPERTY COMPARISON TOOL */
+    .comparison-container {
+      position: fixed;
+      bottom: 80px;
+      right: 12px;
+      width: 90%;
+      max-width: 320px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+      z-index: 100;
+      overflow: hidden;
+      animation: slideUp 0.3s ease-out;
+    }
+    .comparison-header {
+      background: var(--primary);
+      color: white;
+      padding: 12px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .comparison-count {
+      background: rgba(255,255,255,0.3);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .comparison-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .comparison-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    .comparison-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* MAP VIEW TOGGLE */
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .view-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .view-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    /* SAVED SEARCHES */
+    .saved-search-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f7ff;
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      border: 1px solid #bfdbfe;
+      transition: all 0.2s;
+    }
+    .saved-search-chip:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* ADVANCED SEARCH */
+    .advanced-search {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 2000;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .advanced-search.active { display: flex; }
+    .search-panel {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease-out;
+    }
+    
+    /* RENT PAYMENT TRACKER */
+    .payment-tracker {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .payment-due {
+      font-weight: 600;
+      color: #166534;
+      margin-bottom: 4px;
+    }
+    .payment-date {
+      font-size: 13px;
+      color: #4b5563;
+    }
+    
+    /* IN-APP MESSAGING */
+    .chat-bubble {
+      display: flex;
+      margin-bottom: 12px;
+      animation: fadeInUp 0.3s ease-out;
+    }
+    .chat-bubble.sent {
+      justify-content: flex-end;
+    }
+    .bubble-text {
+      max-width: 80%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .chat-bubble.sent .bubble-text {
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-bubble.received .bubble-text {
+      background: #f1f5f9;
+      color: #1e293b;
+      border-bottom-left-radius: 4px;
+    }
+    
+    /* MOBILE MONEY PAYMENT OPTIONS */
+    .payment-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .payment-method {
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .payment-method:hover,
+    .payment-method.selected {
+      border-color: var(--primary);
+      background: #f0f7ff;
+    }
+    .payment-icon {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+    .payment-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+    
+    /* VIEWING SCHEDULER */
+    .viewing-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .calendar-day:hover {
+      background: #f0f7ff;
+      border-color: var(--primary);
+    }
+    .calendar-day.available {
+      background: #dbeafe;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .calendar-day.booked {
+      background: #fed7aa;
+      color: #92400e;
+    }
+    
+    /* MICRO-INTERACTIONS */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    
+    /* BREADCRUMB NAVIGATION */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb-separator {
+      color: #cbd5e1;
+    }
+    
+    /* RECENTLY VIEWED */
+    .recently-viewed {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 12px 0;
+      margin-bottom: 12px;
+    }
+    .recently-viewed-item {
+      flex-shrink: 0;
+      width: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s;
+    }
+    .recently-viewed-item:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    
+    /* QUICK REPLY BUTTONS */
+    .quick-reply {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .quick-reply-btn {
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quick-reply-btn:hover {
+      background: #dbeafe;
+      color: var(--primary);
+    }
+    
+    /* LOW-DATA MODE */
+    body.low-data .listing-img {
+      filter: grayscale(0.5);
+    }
+    body.low-data .skeleton {
+      animation: none;
+      background: #f1f5f9;
+    }
+    
+    /* STICKY CONTACT BAR FOR DETAIL PAGE */
+    .contact-bar { 
+      position: sticky; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      background: white; 
+      padding: 12px 16px; 
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08); 
+      display: flex; 
+      gap: 12px; 
+      z-index: 80; 
+    }
+    .whatsapp-btn { 
+      background: #25D366; 
+      color: white; 
+      flex: 1; 
+      padding: 14px; 
+      border-radius: 50px; 
+      font-weight: 600; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      text-decoration: none; 
+      border: none; 
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+    .whatsapp-btn:hover {
+      background: #20c354;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+    .whatsapp-btn:focus-visible {
+      outline: 2px solid #25D366;
+      outline-offset: 2px;
+    }
+    .call-btn { 
+      background: #1e40af; 
+      color: white; 
+      flex: 1; 
+      padding: 14px; 
+      border-radius: 50px; 
+      font-weight: 600; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      text-decoration: none; 
+      border: none; 
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+    .call-btn:hover {
+      background: #1d36a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+    .call-btn:focus-visible {
+      outline: 2px solid #1e40af;
+      outline-offset: 2px;
+    }
+    
+    /* ACCESSIBILITY */
+    .skip-link { 
+      position: absolute; 
+      top: -40px; 
+      left: 0; 
+      background: var(--primary); 
+      color: white; 
+      padding: 8px 12px; 
+      z-index: 1000; 
+      text-decoration: none;
+      border-radius: 0 0 4px 0;
+    }
+    .skip-link:focus { top: 0; }
+    
+    /* HERO SECTION */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 48px 16px;
+      margin: 0 -16px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+    }
+    .hero-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .hero-section p {
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.95;
+      margin: 0;
+    }
+    /* HERO SECTION STYLING */
+    .Hero-section {
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('/assets/nyumba2.png') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      color: white;
+    }
+    .Hero-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .Hero-subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+    @media (min-width: 640px) {
+      .hero-section {
+        padding: 64px 24px;
+      }
+      .hero-section h2 {
+        font-size: 36px;
+      }
+      .hero-section p {
+        font-size: 18px;
+      }
+    }
+    
+    /* RESPONSIVE HERO IMAGE */
+    .hero-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      border-radius: 0 0 16px 16px;
+    }
+    @media (min-width: 640px) {
+      .hero-image {
+        border-radius: 0;
+      }
+    }
+    
+    /* FILTER BUTTON WITH BADGE */
+    #filter-btn {
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    #filter-btn:hover {
+      color: #1d36a3;
+    }
+    #filter-btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+    .filter-count-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ef4444;
+      color: white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* IMPROVED EMPTY STATE */
+    #no-results {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 16px;
+      padding: 48px 24px;
+      margin: 24px 0;
+    }
+    #no-results svg {
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+    #no-results h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    #no-results p {
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    #reset-filters {
+      transition: all 0.2s ease;
+    }
+    #reset-filters:hover {
+      background: #1d36a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+    #reset-filters:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    /* IMPROVED FORM INPUTS & ACCESSIBILITY */
+    input[type=\"text\"],
+    input[type=\"number\"],
+    select,
+    textarea {
+      transition: all 0.2s ease;
+    }
+    
+    input[type=\"text\"]:focus,
+    input[type=\"number\"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1) !important;
+    }
+    
+    input[type=\"checkbox\"]:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    /* ENHANCED FILTER BUTTONS */
+    .filter-btn {
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .filter-btn:hover {
+      border-color: var(--primary);
+      background: #f0f7ff;
+    }
+    .filter-btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .filter-btn[data-active=\"true\"] {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    
+    /* SMOOTH TRANSITIONS FOR ALL INTERACTIVE ELEMENTS */
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      transition: all 0.15s ease;
+    }
+    
+    /* IMPROVED LISTING IMAGE ASPECT RATIO & ZOOM EFFECT */
+    .listing-img { 
+      width: 100%; 
+      height: 200px; 
+      object-fit: cover; 
+      background: #f1f5f9; 
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .listing-card:hover .listing-img {
+      transform: scale(1.05);
+    }
+
+    @media (min-width: 768px) {
+      .mobile-only { display: none; }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+    }
+    
+    /* SAFE AREA SUPPORT FOR NOTCHED DEVICES */
+    @supports (padding: max(0px)) {
+      .bottom-nav {
+        padding-bottom: max(6px, env(safe-area-inset-bottom));
+      }
+    }
+  </style>
+  
+  <!-- PRELOAD CRITICAL ASSETS -->
+  <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <title>Nuymba za Kupangisha - Dar es Salaam</title>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Ruka kwa maudhui</a>
+  
+  <!-- OFFLINE BANNER (CONTROLLED BY JS) -->
+  <div id="offline-banner" class="offline-banner" role="alert">
+    📵 Huna mtandao. Unavyoona orodha iliyohifadhiwa.
+  </div>
+  
+  <div id="app">
+    <div class="hero-section">
+      <h2>NAPANGA APP</h2>
+      <p>dalali wako wa mtandaoni</p>
+    </div>
+    
+    <!-- HERO SECTION - FROM THE IMAGE -->
+    <div class="Hero-section">
+      <h1 class="Hero-title">Nyumba za Kupangisha</h1>
+      <p class="Hero-subtitle">Pata nyumba yako kwa bei nafuu</p>
+    </div>
+    
+    <div class="container">
+    <header class="py-4 px-4 border-b bg-white">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="bg-[#1e40af] text-white font-bold text-xl w-8 h-8 rounded-full flex items-center justify-center">D</div>
+          <h1 class="text-xl font-bold text-[#1e293b]">NAPANGA</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="search-advanced-btn" class="touch-target flex items-center gap-1 text-[#64748b] hover:text-[#1e40af]" title="Tafuta kwa kina">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+          <button id="dark-mode-toggle" class="touch-target flex items-center gap-1 text-[#64748b] hover:text-[#1e40af]" title="Toggle dark mode">
+            <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button id="filter-btn" class="touch-target flex items-center gap-1 text-[#1e40af] font-medium relative">
+            <span>Chuja</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            <span id="filter-badge" class="filter-count-badge hidden">0</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-[#64748b] text-sm">Dar es Salaam, Tanzania</p>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="list" title="Orodha">📋</button>
+          <button class="view-btn" data-view="map" title="Ramani">🗺️</button>
+        </div>
+      </div>
+      <div id="saved-searches" class="hidden">
+        <div class="text-xs font-semibold text-[#64748b] mb-2">Tafuta zilizohifadhiwa:</div>
+        <div id="searches-container"></div>
+      </div>
+    </header>
+    
+    <main id="main-content" class="py-4 px-4">
+      <div id="listings-container">
+        <!-- SKELETON LOADERS FOR SLOW NETWORKS -->
+        <div class="skeleton mb-4" style="height: 160px;"></div>
+        <div class="skeleton mb-4" style="height: 160px;"></div>
+        <div class="skeleton mb-4" style="height: 160px;"></div>
+      </div>
+    </main>
+    
+    <!-- FILTER BOTTOM SHEET (CSS-ONLY MODAL) -->
+    <input type="checkbox" id="filter-toggle" class="hidden">
+    <div class="modal-overlay"></div>
+    <div id="filter-modal">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h2 class="text-xl font-bold">Chuja Mali</h2>
+        <label for="filter-toggle" class="touch-target">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </label>
+      </div>
+      
+      <div class="p-4 space-y-6 max-h-[60vh] overflow-y-auto">
+        <div>
+          <label class="block text-sm font-medium text-[#475569] mb-2">Mahali (Ward)</label>
+          <select id="filter-location" class="w-full p-3 border border-[#cbd5e1] rounded-lg bg-white focus:ring-2 focus:ring-[#1e40af] focus:border-transparent">
+            <option value="">Chagua mahali...</option>
+            <option value="kinondoni">Kinondoni</option>
+            <option value="ilala">Ilala</option>
+            <option value="temboni">Temeke</option>
+            <option value="ubungo">Ubungo</option>
+            <option value="kigamboni">Kigamboni</option>
+            <option value="mikocheni">Mikocheni</option>
+            <option value="masaki">Masaki</option>
+            <option value="oysterbay">Oysterbay</option>
+            <option value="mbezi">Mbezi</option>
+            <option value="kunduchi">Kunduchi</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-[#475569] mb-2">Bei (kwa mwezi)</label>
+          <div class="flex gap-2">
+            <input type="number" id="filter-min-price" placeholder="TSh 0" class="flex-1 p-3 border border-[#cbd5e1] rounded-lg bg-white focus:ring-2 focus:ring-[#1e40af] focus:border-transparent">
+            <span class="self-center px-2 text-[#64748b]">-</span>
+            <input type="number" id="filter-max-price" placeholder="TSh 5,000,000" class="flex-1 p-3 border border-[#cbd5e1] rounded-lg bg-white focus:ring-2 focus:ring-[#1e40af] focus:border-transparent">
+          </div>
+          <p class="text-xs text-[#64748b] mt-1">Ingawa bei zaidi ya TSh 5,000,000 zinawekwa kiotomatiki</p>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-[#475569] mb-2">Chumba</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" class="filter-btn p-2 border border-[#cbd5e1] rounded-lg text-center data-[active=true]:bg-[#1e40af] data-[active=true]:text-white">1+1</button>
+            <button type="button" class="filter-btn p-2 border border-[#cbd5e1] rounded-lg text-center data-[active=true]:bg-[#1e40af] data-[active=true]:text-white">2+1</button>
+            <button type="button" class="filter-btn p-2 border border-[#cbd5e1] rounded-lg text-center data-[active=true]:bg-[#1e40af] data-[active=true]:text-white">3+1</button>
+            <button type="button" class="filter-btn p-2 border border-[#cbd5e1] rounded-lg text-center data-[active=true]:bg-[#1e40af] data-[active=true]:text-white">4+</button>
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-[#475569] mb-2">Aina ya Nyumba</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-3 p-3 border border-[#cbd5e1] rounded-lg hover:bg-[#f8fafc]">
+              <input type="checkbox" name="design" value="apartment" class="w-5 h-5 text-[#1e40af] rounded">
+              <span>Apartment</span>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-[#cbd5e1] rounded-lg hover:bg-[#f8fafc]">
+              <input type="checkbox" name="design" value="bungalow" class="w-5 h-5 text-[#1e40af] rounded">
+              <span>Bungalow</span>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-[#cbd5e1] rounded-lg hover:bg-[#f8fafc]">
+              <input type="checkbox" name="design" value="single_house" class="w-5 h-5 text-[#1e40af] rounded">
+              <span>Nyumba Peke yake</span>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-[#cbd5e1] rounded-lg hover:bg-[#f8fafc]">
+              <input type="checkbox" name="design" value="shared" class="w-5 h-5 text-[#1e40af] rounded">
+              <span>Chumba Kilichoshirikiwa</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-4 border-t bg-[#f8fafc]">
+        <div class="flex gap-3">
+          <button id="clear-filters" class="flex-1 py-3 bg-white border border-[#cbd5e1] rounded-full font-medium text-[#1e40af]">
+            Futa Vichujio
+          </button>
+          <button id="apply-filters" class="flex-1 py-3 bg-[#1e40af] text-white rounded-full font-medium">
+            Omba Vichujio (4)
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ADVANCED SEARCH PANEL -->
+    <div id="advanced-search" class="advanced-search">
+      <div class="search-panel">
+        <div class="p-4 border-b flex justify-between items-center">
+          <h2 class="text-xl font-bold">Tafuta Kwa Kina</h2>
+          <button id="close-search" class="touch-target">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="p-4 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-[#475569] mb-2">Mahali</label>
+            <input type="text" id="search-location" placeholder="Karibu na..." class="w-full p-3 border border-[#cbd5e1] rounded-lg">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#475569] mb-2">Umbali (km)</label>
+            <input type="range" id="search-distance" min="0" max="50" value="5" class="w-full">
+            <div class="text-sm text-[#64748b] mt-1">Hadi <span id="distance-value">5</span> km</div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#475569] mb-2">Amenities</label>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input type="checkbox" value="wifi" class="amenity-filter"> <span class="ml-2 text-sm">WiFi</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" value="parking" class="amenity-filter"> <span class="ml-2 text-sm">Parking</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" value="gym" class="amenity-filter"> <span class="ml-2 text-sm">Gym</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" value="pool" class="amenity-filter"> <span class="ml-2 text-sm">Pool</span>
+              </label>
+            </div>
+          </div>
+          <button id="save-search" class="w-full py-3 bg-[#1e40af] text-white rounded-full font-medium">
+            Hifadhi Tafuta
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- PROPERTY COMPARISON TOOL -->
+    <div id="comparison-tool" class="comparison-container hidden">
+      <div class="comparison-header">
+        <span>Linganisha Mali</span>
+        <span class="comparison-count">0</span>
+      </div>
+      <div class="comparison-list" id="comparison-list"></div>
+      <button class="comparison-btn">
+        Linganisha Sasa
+      </button>
+    </div>
+    
+    <!-- BOTTOM NAVIGATION - THUMB FRIENDLY -->
+    <nav class="bottom-nav">
+      <a href="/" class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        <span>Mwanzo</span>
+      </a>
+      <a href="/saved.html" class="nav-item">
+        <span class="nav-icon">❤️</span>
+        <span>Favoriti</span>
+      </a>
+      <a href="/add-property.html" class="nav-item touch-target">
+        <span class="nav-icon text-2xl">➕</span>
+        <span>Ongeza</span>
+      </a>
+      <a href="/messages.html" class="nav-item">
+        <span class="nav-icon">💬</span>
+        <span>Ujumbe</span>
+      </a>
+      <a href="/profile.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span>Akaunti</span>
+      </a>
+    </nav>
+    </div>
+  </div>
+  
+  <!-- OFFLINE FALLBACK CONTENT (PRE-CACHED) -->
+  <template id="offline-listing-template">
+    <div class="listing-card">
+      <div class="relative">
+        <div class="bg-[#f1f5f9] h-40 flex items-center justify-center">
+          <span class="text-[#94a3b8]">Picha haiapatikani bila mtandao</span>
+        </div>
+        <span class="listing-card-badge hot">HOT</span>
+        <span class="listing-card-type">Apartment</span>
+      </div>
+      <div class="p-3">
+        <div class="mb-2">
+          <div class="location-badge mb-2">Mahali: [Mahali]</div>
+          <div class="verification-badge owner">✓ Owner</div>
+          <div class="verification-badge address">✓ Address</div>
+        </div>
+        <div class="price-tag mb-2">TSh [Bei]</div>
+        <div class="property-stats">
+          <div class="stat">
+            <span class="stat-icon">🛏️</span>
+            <span class="stat-label">Chumba</span>
+            <span class="stat-value">[Bedroom]</span>
+          </div>
+          <div class="stat">
+            <span class="stat-icon">🚿</span>
+            <span class="stat-label">Bafu</span>
+            <span class="stat-value">[Bath]</span>
+          </div>
+          <div class="stat">
+            <span class="stat-icon">📏</span>
+            <span class="stat-label">Ukubwa</span>
+            <span class="stat-value">[Size]m²</span>
+          </div>
+        </div>
+        <div class="amenities-grid text-sm mt-2">
+          <div class="amenity">
+            <span class="amenity-icon">📶</span>WiFi
+          </div>
+          <div class="amenity">
+            <span class="amenity-icon">🅿️</span>Parking
+          </div>
+          <div class="amenity">
+            <span class="amenity-icon">🏊</span>Pool
+          </div>
+          <div class="amenity">
+            <span class="amenity-icon">🏋️</span>Gym
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="flex-1 py-2 bg-[#1e40af] text-white text-sm font-medium rounded" onclick="alert('Feature coming soon!')">
+            👁️ View
+          </button>
+          <button class="flex-1 py-2 bg-[#f1f5f9] text-[#1e40af] text-sm font-medium rounded comparison-add-btn">
+            ⚖️ Compare
+          </button>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <!-- SERVICE WORKER REGISTRATION -->
+  <script>
+    // CRITICAL: Register service worker immediately
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(reg => console.log('SW registered', reg.scope))
+          .catch(err => console.error('SW registration failed', err));
+      });
+    }
+    
+    // OFFLINE DETECTION
+    const offlineBanner = document.getElementById('offline-banner');
+    const updateOnlineStatus = () => {
+      if (!navigator.onLine) {
+        offlineBanner.style.display = 'block';
+        document.documentElement.classList.add('offline');
+      } else {
+        offlineBanner.style.display = 'none';
+        document.documentElement.classList.remove('offline');
+      }
+    };
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus(); // Initial check
+    
+    // DATA SAVER DETECTION (CRITICAL FOR TANZANIA)
+    if ('connection' in navigator && navigator.connection.saveData) {
+      document.documentElement.classList.add('data-saver');
+      console.log('Data Saver mode enabled - optimizing assets');
+    }
+    
+    // FILTER BUTTON HANDLING (CSS ONLY MODAL)
+    const filterBtn = document.getElementById('filter-btn');
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterBadge = document.getElementById('filter-badge');
+    
+    filterBtn?.addEventListener('click', () => {
+      filterToggle.checked = true;
+    });
+    
+    // UPDATE FILTER COUNT BADGE
+    function updateFilterBadge() {
+      const activeFilters = document.querySelectorAll('input[type="checkbox"]:checked, input[type="number"]:not(:placeholder-shown), select:not([value=""])').length;
+      if (activeFilters > 0) {
+        filterBadge.textContent = activeFilters;
+        filterBadge.classList.remove('hidden');
+      } else {
+        filterBadge.classList.add('hidden');
+      }
+    }
+    
+    // MONITOR FILTER CHANGES
+    document.querySelectorAll('input, select')?.forEach(el => {
+      el.addEventListener('change', updateFilterBadge);
+      el.addEventListener('input', updateFilterBadge);
+    });
+    
+    // CLOSE MODAL ON OUTSIDE CLICK
+    const modalOverlay = document.querySelector('.modal-overlay');
+    modalOverlay?.addEventListener('click', () => {
+      filterToggle.checked = false;
+    });
+    
+    // KEYBOARD SUPPORT - CLOSE ON ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && filterToggle.checked) {
+        filterToggle.checked = false;
+      }
+    });
+    
+    // ADD STAGGERED ANIMATION TO LISTING CARDS WHEN LOADED
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting && entry.target.classList.contains('skeleton')) {
+          entry.target.style.animation = `fadeInDown 0.6s ease-out ${index * 0.1}s backwards`;
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.listing-card, .skeleton')?.forEach(card => {
+      cardObserver.observe(card);
+    });
+    
+    // ===== ADVANCED FEATURES (65 SUGGESTIONS) =====
+    
+    // DARK MODE TOGGLE
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const lightIcon = document.getElementById('light-icon');
+    const darkIcon = document.getElementById('dark-icon');
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    
+    if (savedDarkMode) {
+      document.body.setAttribute('data-dark-mode', 'true');
+      lightIcon.classList.add('hidden');
+      darkIcon.classList.remove('hidden');
+    }
+    
+    darkModeToggle?.addEventListener('click', () => {
+      const isDark = document.body.getAttribute('data-dark-mode') === 'true';
+      if (isDark) {
+        document.body.removeAttribute('data-dark-mode');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+        localStorage.setItem('darkMode', 'false');
+      } else {
+        document.body.setAttribute('data-dark-mode', 'true');
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+        localStorage.setItem('darkMode', 'true');
+      }
+    });
+    
+    // ADVANCED SEARCH
+    const searchBtn = document.getElementById('search-advanced-btn');
+    const advancedSearch = document.getElementById('advanced-search');
+    const closeSearchBtn = document.getElementById('close-search');
+    const saveSearchBtn = document.getElementById('save-search');
+    const distanceSlider = document.getElementById('search-distance');
+    const distanceValue = document.getElementById('distance-value');
+    
+    searchBtn?.addEventListener('click', () => {
+      advancedSearch.classList.add('active');
+    });
+    
+    closeSearchBtn?.addEventListener('click', () => {
+      advancedSearch.classList.remove('active');
+    });
+    
+    distanceSlider?.addEventListener('input', (e) => {
+      distanceValue.textContent = e.target.value;
+    });
+    
+    // SAVE SEARCH FUNCTIONALITY
+    saveSearchBtn?.addEventListener('click', () => {
+      const location = document.getElementById('search-location').value;
+      const distance = document.getElementById('search-distance').value;
+      const amenities = Array.from(document.querySelectorAll('.amenity-filter:checked')).map(el => el.value).join(', ');
+      
+      const search = {
+        id: Date.now(),
+        location: location || 'Kila Mahali',
+        distance,
+        amenities,
+        timestamp: new Date().toLocaleDateString('sw-TZ')
+      };
+      
+      let searches = JSON.parse(localStorage.getItem('savedSearches') || '[]');
+      searches.push(search);
+      localStorage.setItem('savedSearches', JSON.stringify(searches));
+      
+      alert('Tafuta ilihifadhiwa!');
+      addSavedSearchChip(search);
+      advancedSearch.classList.remove('active');
+    });
+    
+    // ADD SAVED SEARCHES TO UI
+    function addSavedSearchChip(search) {
+      const container = document.getElementById('searches-container');
+      const chip = document.createElement('div');
+      chip.className = 'saved-search-chip';
+      chip.textContent = `${search.location} (${search.distance}km)`;
+      chip.onclick = () => loadSearch(search);
+      container.appendChild(chip);
+    }
+    
+    function loadSearch(search) {
+      document.getElementById('search-location').value = search.location;
+      document.getElementById('search-distance').value = search.distance;
+      alert(`Tafuta iliyochukuwa: ${search.location}`);
+    }
+    
+    // LOAD SAVED SEARCHES ON STARTUP
+    (function loadSavedSearches() {
+      const searches = JSON.parse(localStorage.getItem('savedSearches') || '[]');
+      const container = document.getElementById('searches-container');
+      if (searches.length > 0) {
+        document.getElementById('saved-searches').classList.remove('hidden');
+        searches.forEach(search => {
+          const chip = document.createElement('div');
+          chip.className = 'saved-search-chip';
+          chip.textContent = `${search.location} (${search.distance}km)`;
+          chip.onclick = () => loadSearch(search);
+          container.appendChild(chip);
+        });
+      }
+    })();
+    
+    // PROPERTY COMPARISON
+    let comparisonList = [];
+    const comparisonTool = document.getElementById('comparison-tool');
+    const comparisonCount = document.querySelector('.comparison-count');
+    
+    document.querySelectorAll('.comparison-add-btn')?.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const property = this.closest('.listing-card');
+        const propName = 'Property ' + (Math.random() * 1000 | 0);
+        
+        if (comparisonList.length >= 3) {
+          alert('Kiwango cha juu cha linganisho ni mali 3');
+          return;
+        }
+        
+        comparisonList.push(propName);
+        comparisonCount.textContent = comparisonList.length;
+        comparisonTool.classList.remove('hidden');
+        
+        const listContainer = document.getElementById('comparison-list');
+        const item = document.createElement('div');
+        item.className = 'comparison-item';
+        item.innerHTML = `
+          <span>${propName}</span>
+          <button onclick="this.parentElement.remove(); comparisonList.pop(); comparisonCount.textContent = comparisonList.length;" style="background: none; border: none; color: #ef4444; cursor: pointer;">✕</button>
+        `;
+        listContainer.appendChild(item);
+        
+        this.style.background = '#dbeafe';
+        this.textContent = '✓ Linganishwa';
+      });
+    });
+    
+    // VIEW TOGGLE (LIST/MAP)
+    document.querySelectorAll('.view-btn')?.forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const view = this.getAttribute('data-view');
+        if (view === 'map') {
+          alert('Ramani ya mali itakuwepo hivi karib! 🗺️');
+        }
+      });
+    });
+    
+    // RECENTLY VIEWED PROPERTIES
+    (function trackRecentlyViewed() {
+      window.addToRecentlyViewed = function(propId) {
+        let recent = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+        recent = recent.filter(id => id !== propId);
+        recent.unshift(propId);
+        recent = recent.slice(0, 10);
+        localStorage.setItem('recentlyViewed', JSON.stringify(recent));
+      };
+    })();
+    
+    // LOW DATA MODE DETECTION
+    if ('connection' in navigator && navigator.connection.saveData) {
+      document.body.classList.add('low-data');
+      console.log('Low-data mode detected - optimizing assets');
+    }
+    
+    // MOBILE MONEY PAYMENT SIMULATION
+    window.showPaymentOptions = function() {
+      const methods = ['M-Pesa', 'Airtel Money', 'Tigo Pesa', 'Halotel'];
+      const html = methods.map(method => `
+        <div class="payment-method" onclick="selectPayment('${method}')">
+          <div class="payment-icon">💰</div>
+          <div class="payment-label">${method}</div>
+        </div>
+      `).join('');
+      alert('Payment methods: ' + methods.join(', '));
+    };
+    
+    window.selectPayment = function(method) {
+      alert(`${method} inachaguliwa kwa malipo...`);
+    };
+    
+    // IN-APP MESSAGING SUGGESTION
+    window.openMessaging = function(agentId) {
+      alert('In-app messaging na ajenti kuja hivi karib! 💬');
+    };
+    
+    // VIEWING SCHEDULER
+    window.scheduleViewing = function(propertyId) {
+      const dates = ['2026-02-15', '2026-02-16', '2026-02-17', '2026-02-18'];
+      alert('Chagua tarehe ya kuangalia: ' + dates.join(', '));
+    };
+    
+    // BREADCRUMB NAVIGATION
+    window.updateBreadcrumb = function(current) {
+      const breadcrumb = document.querySelector('.breadcrumb');
+      if (breadcrumb) {
+        breadcrumb.innerHTML = `
+          <a href="/" class="breadcrumb-item">Nyumba</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">${current}</span>
+        `;
+      }
+    };
+    
+    // REPORT SUSPICIOUS LISTING
+    window.reportListing = function(propertyId) {
+      alert('Shukrani kwa kuripoti! Ushahidi umechambuliwa na timu yetu.');
+    };
+    
+    // ENHANCED TOOLTIPS & MICRO-INTERACTIONS
+    document.querySelectorAll('[title]')?.forEach(el => {
+      el.addEventListener('mouseenter', function() {
+        this.style.opacity = '0.8';
+      });
+      el.addEventListener('mouseleave', function() {
+        this.style.opacity = '1';
+      });
+    });
+  </script>
+  
+  <!-- LAZY-LOAD MAIN APP LOGIC AFTER CRITICAL CONTENT -->
+  <!-- <script defer src="/app.js"></script> -->
+  <script defer src="/lib/firebase.js"></script>
+</body>
+</html>
