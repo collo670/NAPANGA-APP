@@ -225,8 +225,8 @@
       color: white;
       font-weight: 800;
       font-size: var(--font-lg);
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -704,92 +704,6 @@
     }
     
     /* ============================================
-       BOTTOM NAVIGATION (Mobile First)
-       ============================================ */
-    
-    .bottom-nav-modern {
-      position: fixed;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-top: none;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
-      padding: var(--space-md) var(--space-lg);
-      display: flex;
-      justify-content: space-around;
-      gap: var(--space-xs);
-      z-index: 100;
-      border: 1px solid rgba(255,255,255,0.2);
-      /* Account for iOS safe area - home indicator */
-      padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
-      margin-bottom: env(safe-area-inset-bottom, 0px);
-    }
-    
-    .nav-item-modern {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: var(--space-sm) var(--space-lg);
-      border-radius: 16px;
-      color: var(--text-muted);
-      font-size: var(--font-xs);
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 64px;
-      position: relative;
-    }
-    
-    .nav-item-modern::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 32px;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 0 0 4px 4px;
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .nav-item-modern.active {
-      background: rgba(37,99,235,0.08);
-      color: var(--primary);
-      border-radius: 16px;
-    }
-    
-    .nav-item-modern.active::before {
-      transform: translateX(-50%) scaleX(1);
-    }
-    
-    .nav-item-modern:active {
-      transform: scale(0.95);
-    }
-    
-    .nav-item-modern i {
-      font-size: 22px;
-    }
-    
-    .nav-item-modern svg {
-      transition: transform 0.2s ease;
-    }
-    
-    .nav-item-modern.active svg {
-      transform: scale(1.1);
-    }
-    
-    /* Add bottom padding for floating nav on mobile */
-    main {
-      padding-bottom: 100px;
-    }
-    
-    /* ============================================
        FILTER MODAL (Mobile First)
        ============================================ */
     
@@ -1137,15 +1051,6 @@
         gap: var(--space-xl);
       }
       
-      .bottom-nav-modern {
-        display: none;
-      }
-      
-      /* Remove bottom padding on desktop since nav is hidden */
-      main {
-        padding-bottom: 0 !important;
-      }
-      
       /* Hide mobile menu toggle on desktop */
       .mobile-menu-toggle {
         display: none;
@@ -1317,23 +1222,8 @@
       background: #f9f7f7;
     }
     
-    body.dark-mode ,
-    body.dark-mode .bottom-nav-modern {
+    body.dark-mode {
       background: #1e293b;
-    }
-    
-    body.dark-mode .bottom-nav-modern {
-      background: rgba(30, 41, 59, 0.95);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    body.dark-mode .nav-item-modern.active {
-      background: rgba(33, 53, 96, 0.25);
-    }
-    
-    body.dark-mode .nav-item-modern::before {
-      background: var(--accent);
     }
     
     body.dark-mode .search-bar-modern,
@@ -1362,7 +1252,6 @@
     
     @media print {
       .app-header,
-      .bottom-nav-modern,
       .filter-modal-modern,
       .search-container {
         display: none;
@@ -1391,7 +1280,7 @@
       <div class="header-content">
         <div class="brand">
           <div class="brand-icon">N</div>
-          <span class="brand-name">NAPANGA</span>
+          <span class="brand-name">APANGA</span>
         </div>
         <div class="header-actions">
           <!-- Desktop Navigation (hidden on mobile) -->
@@ -1755,44 +1644,6 @@
       </div>
     </main>
 
-    <!-- MODERN BOTTOM NAVIGATION -->
-    <nav class="bottom-nav-modern">
-      <a href="#" class="nav-item-modern active">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
-          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        </svg>
-        <span>Nyumbani</span>
-      </a>
-      <a href="#" class="nav-item-modern">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-        </svg>
-        <span>Favoriti</span>
-      </a>
-      <a href="#" class="nav-item-modern">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.3-4.3"/>
-        </svg>
-        <span>Tafuta</span>
-      </a>
-      <a href="#" class="nav-item-modern">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5v14"/>
-          <path d="M5 12h14"/>
-        </svg>
-        <span>Ongeza</span>
-      </a>
-      <a href="#" class="nav-item-modern">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M20 21a8 8 0 1 0-16 0"/>
-        </svg>
-        <span>Akaunti</span>
-      </a>
-    </nav>
-
     <!-- MODERN FILTER MODAL (Hidden by default) -->
     <div id="filter-modal" class="filter-modal-modern">
       <div class="filter-header">
@@ -1936,20 +1787,17 @@
     // SHOW/HIDE DESKTOP NAV BASED ON SCREEN SIZE
     function handleResponsiveNav() {
       const desktopNav = document.querySelector('.desktop-nav');
-      const bottomNav = document.querySelector('.bottom-nav-modern');
       const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
       const mobileNavDropdown = document.querySelector('.mobile-nav-dropdown');
       
       if (window.innerWidth >= 768) {
         if (desktopNav) desktopNav.style.display = 'flex';
-        if (bottomNav) bottomNav.style.display = 'none';
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
         // Close mobile menu if open when switching to desktop
         if (mobileNavDropdown) mobileNavDropdown.classList.remove('active');
         if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
       } else {
         if (desktopNav) desktopNav.style.display = 'none';
-        if (bottomNav) bottomNav.style.display = 'flex';
         if (mobileMenuToggle) mobileMenuToggle.style.display = 'flex';
       }
     }
@@ -2021,7 +1869,16 @@
     // PWA SERVICE WORKER REGISTRATION
     // ============================================
     
-    if ('serviceWorker' in navigator) {
+    // Skip service worker registration on localhost for development
+    const isLocalhost = Boolean(
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '[::1]' ||
+      window.location.port === '5500' ||
+      window.location.port === '3000'
+    );
+    
+    if ('serviceWorker' in navigator && !isLocalhost) {
       window.addEventListener('load', async () => {
         try {
           const registration = await navigator.serviceWorker.register('/sw.js', {
@@ -2044,6 +1901,8 @@
           console.error('[PWA] Service Worker registration failed:', error);
         }
       });
+    } else if (isLocalhost) {
+      console.log('[PWA] Service Worker disabled on localhost for development');
     }
 
     // Show update notification to user

@@ -1,7 +1,7 @@
 // NAPANGA PWA Service Worker
-const CACHE_NAME = 'napanga-cache-v1';
-const STATIC_CACHE = 'napanga-static-v1';
-const DYNAMIC_CACHE = 'napanga-dynamic-v1';
+const CACHE_NAME = 'napanga-cache-v3';
+const STATIC_CACHE = 'napanga-static-v3';
+const DYNAMIC_CACHE = 'napanga-dynamic-v3';
 
 // Files to cache immediately on install
 const STATIC_ASSETS = [
