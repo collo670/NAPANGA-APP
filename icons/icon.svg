@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#39eb25"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bgGrad)"/>
+  <!-- House icon -->
+  <g fill="white">
+    <!-- Roof -->
+    <path d="M256 120 L120 240 L140 240 L140 380 L372 380 L372 240 L392 240 Z" fill="white"/>
+    <!-- Door -->
+    <rect x="220" y="280" width="72" height="100" rx="8" fill="url(#bgGrad)"/>
+    <!-- Window left -->
+    <rect x="160" y="260" width="50" height="50" rx="8" fill="url(#bgGrad)"/>
+    <!-- Window right -->
+    <rect x="302" y="260" width="50" height="50" rx="8" fill="url(#bgGrad)"/>
+  </g>
+  <!-- Letter N -->
+  <text x="256" y="480" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">N</text>
+</svg>

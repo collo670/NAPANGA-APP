@@ -3,14 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0f2b5e">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="NAPANGA APP - Tafuta Nyumba Yako">
   <meta name="description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
-  <title>NAPANGA APP</title>
+  <meta name="keywords" content="nyumba, apartment, rent, Dar es Salaam, Tanzania, house, chumba, kupanga">
+  <meta name="author" content="NAPANGA">
+  
+  <!-- PWA Primary Tags -->
+  <meta name="theme-color" content="#39eb25">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="NAPANGA">
+  
+  <!-- iOS Specific Meta Tags for PWA Installation -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NAPANGA">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-touch-fullscreen" content="yes">
+  
+  <!-- iOS Splash Screens for different iPhone models -->
+  <link rel="apple-touch-startup-image" href="/icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-1668x2224.png" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="/icons/splash-2048x2732.png" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)">
+  
+  <!-- iOS Touch Icons (required for "Add to Home Screen") -->
+  <link rel="apple-touch-icon" href="/icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180.png">
+  
+  <!-- Standard PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+  <link rel="shortcut icon" href="/icons/icon-32.png">
+  
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#39eb25">
+  <meta name="msapplication-TileImage" content="/icons/icon-144.png">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napanga.app/">
+  <meta property="og:title" content="NAPANGA APP - Tafuta Nyumba Yako">
+  <meta property="og:description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta property="og:image" content="/icons/icon-512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://napanga.app/">
+  <meta property="twitter:title" content="NAPANGA APP - Tafuta Nyumba Yako">
+  <meta property="twitter:description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta property="twitter:image" content="/icons/icon-512.png">
+  
+  <title>NAPANGA APP</title>
+  
+  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://firestore.googleapis.com">
   <link rel="preconnect" href="https://firebasestorage.googleapis.com">
   
@@ -82,8 +141,8 @@
         --primary-light: #1e293b;
         --primary-dark: #1e293b;
         --accent: #1e293b;
-        --surface: #f6f8f6;
-        --surface-alt: #151414;
+        --surface: #1e293b;
+        --surface-alt: #1e293b;
         --border: #7c7777;
         --text: #0f0f0f;
         --text-light: #f5f1f1;
@@ -144,6 +203,8 @@
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(233,237,242,0.5);
       padding: var(--space-md) var(--space-xl);
+      /* Account for iOS safe area - status bar */
+      padding-top: calc(var(--space-md) + env(safe-area-inset-top, 0px));
     }
     
     .header-content {
@@ -241,7 +302,7 @@
     
     .mobile-nav-content {
       padding: var(--space-2xl) var(--space-xl);
-      padding-top: 80px;
+      padding-top: calc(80px + env(safe-area-inset-top, 0px));
       display: flex;
       flex-direction: column;
       gap: var(--space-sm);
@@ -305,6 +366,8 @@
       background: linear-gradient(145deg, var(--primary), var(--primary-dark));
       position: relative;
       overflow: hidden;
+      /* Ensure hero starts below header with safe area */
+      margin-top: 0;
     }
     
     body.dark-mode .hero-modern {
@@ -661,6 +724,9 @@
       gap: var(--space-xs);
       z-index: 100;
       border: 1px solid rgba(255,255,255,0.2);
+      /* Account for iOS safe area - home indicator */
+      padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+      margin-bottom: env(safe-area-inset-bottom, 0px);
     }
     
     .nav-item-modern {
@@ -805,6 +871,8 @@
       border-top: 1px solid var(--border);
       display: flex;
       gap: var(--space-md);
+      /* Account for iOS safe area - home indicator */
+      padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom, 0px));
     }
     
     .filter-footer button {
@@ -1948,6 +2016,228 @@
     // Run on load and resize
     handleResponsiveNav();
     window.addEventListener('resize', handleResponsiveNav);
+
+    // ============================================
+    // PWA SERVICE WORKER REGISTRATION
+    // ============================================
+    
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js', {
+            scope: '/'
+          });
+          console.log('[PWA] Service Worker registered successfully:', registration.scope);
+          
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content is available, show update notification
+                console.log('[PWA] New content available, please refresh.');
+                showUpdateNotification();
+              }
+            });
+          });
+        } catch (error) {
+          console.error('[PWA] Service Worker registration failed:', error);
+        }
+      });
+    }
+
+    // Show update notification to user
+    function showUpdateNotification() {
+      const updateBanner = document.createElement('div');
+      updateBanner.id = 'pwa-update-banner';
+      updateBanner.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 16px;
+        right: 16px;
+        background: linear-gradient(145deg, #39eb25, #1d4ed8);
+        color: white;
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+      `;
+      updateBanner.innerHTML = `
+        <span>🔄 Mwisho mpya unapatikana!</span>
+        <button onclick="location.reload()" style="
+          background: white;
+          color: #39eb25;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+        ">Sasa</button>
+      `;
+      document.body.appendChild(updateBanner);
+      
+      // Auto-remove after 10 seconds
+      setTimeout(() => {
+        if (document.getElementById('pwa-update-banner')) {
+          document.getElementById('pwa-update-banner').remove();
+        }
+      }, 10000);
+    }
+
+    // ============================================
+    // PWA INSTALL PROMPT (for iOS and Android)
+    // ============================================
+    
+    let deferredPrompt;
+    let installBanner;
+
+    // Listen for the beforeinstallprompt event (Android/Desktop)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('[PWA] Install prompt available');
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallPrompt();
+    });
+
+    // Show install prompt banner
+    function showInstallPrompt() {
+      // Don't show if already installed or dismissed
+      if (localStorage.getItem('pwa-install-dismissed') === 'true') {
+        return;
+      }
+
+      // Check if running as standalone PWA
+      if (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true) {
+        console.log('[PWA] Already running as standalone app');
+        return;
+      }
+
+      // Create install banner
+      installBanner = document.createElement('div');
+      installBanner.id = 'pwa-install-banner';
+      installBanner.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        z-index: 9998;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: 'Inter', sans-serif;
+        border: 1px solid #e5e7eb;
+      `;
+      
+      // Detect iOS
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      
+      if (isIOS) {
+        // iOS install instructions
+        installBanner.innerHTML = `
+          <div style="width: 48px; height: 48px; background: linear-gradient(145deg, #39eb25, #1d4ed8); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span style="color: white; font-weight: bold; font-size: 20px;">N</span>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #111827; font-size: 14px;">Sakinisha NAPANGA App</div>
+            <div style="color: #6b7280; font-size: 12px; margin-top: 2px;">
+              Bonyeza 
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: inline; vertical-align: middle;">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+              kisha "Add to Home Screen"
+            </div>
+          </div>
+          <button onclick="dismissInstallBanner()" style="background: none; border: none; padding: 8px; cursor: pointer; color: #6b7280;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18" stroke-width="2"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke-width="2"/>
+            </svg>
+          </button>
+        `;
+      } else {
+        // Android/Desktop install button
+        installBanner.innerHTML = `
+          <div style="width: 48px; height: 48px; background: linear-gradient(145deg, #39eb25, #1d4ed8); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span style="color: white; font-weight: bold; font-size: 20px;">N</span>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #111827; font-size: 14px;">Sakinisha NAPANGA App</div>
+            <div style="color: #6b7280; font-size: 12px; margin-top: 2px;">Pata upatikanaji wa haraka</div>
+          </div>
+          <button onclick="installPWA()" style="
+            background: linear-gradient(145deg, #39eb25, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+          ">Sakinisha</button>
+          <button onclick="dismissInstallBanner()" style="background: none; border: none; padding: 8px; cursor: pointer; color: #6b7280;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18" stroke-width="2"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke-width="2"/>
+            </svg>
+          </button>
+        `;
+      }
+      
+      document.body.appendChild(installBanner);
+    }
+
+    // Install PWA (Android/Desktop)
+    async function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[PWA] Install prompt outcome:', outcome);
+        deferredPrompt = null;
+        dismissInstallBanner();
+      }
+    }
+
+    // Dismiss install banner
+    function dismissInstallBanner() {
+      if (installBanner) {
+        installBanner.remove();
+      }
+      // Remember dismissal for 7 days
+      localStorage.setItem('pwa-install-dismissed', 'true');
+      setTimeout(() => {
+        localStorage.removeItem('pwa-install-dismissed');
+      }, 7 * 24 * 60 * 60 * 1000);
+    }
+
+    // Listen for successful installation
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App installed successfully');
+      dismissInstallBanner();
+      deferredPrompt = null;
+    });
+
+    // Check if app is running as standalone
+    function isRunningAsPWA() {
+      return window.matchMedia('(display-mode: standalone)').matches || 
+             window.navigator.standalone === true ||
+             document.referrer.includes('android-app://');
+    }
+
+    // Log PWA status
+    console.log('[PWA] Running as PWA:', isRunningAsPWA());
+    console.log('[PWA] Service Worker supported:', 'serviceWorker' in navigator);
   </script>
 </body>
 </html>
