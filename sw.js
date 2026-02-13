@@ -1,7 +1,10 @@
 // NAPANGA PWA Service Worker
-const CACHE_NAME = 'napanga-cache-v3';
-const STATIC_CACHE = 'napanga-static-v3';
-const DYNAMIC_CACHE = 'napanga-dynamic-v3';
+const CACHE_NAME = 'napanga-cache-v4';
+const STATIC_CACHE = 'napanga-static-v4';
+const DYNAMIC_CACHE = 'napanga-dynamic-v4';
+
+// Set to false during development to always fetch from network first
+const ENABLE_CACHING = false;
 
 // Files to cache immediately on install
 const STATIC_ASSETS = [
@@ -79,7 +82,7 @@ self.addEventListener('fetch', (event) => {
         caches.open(DYNAMIC_CACHE).then((cache) => {
           return cache.match(request).then((cachedResponse) => {
             const fetchPromise = fetch(request).then((networkResponse) => {
-              if (networkResponse.ok) {
+              if (networkResponse.ok && ENABLE_CACHING) {
                 cache.put(request, networkResponse.clone());
               }
               return networkResponse;
@@ -92,7 +95,34 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For same-origin requests, use cache-first strategy
+  // Development mode: Network-first strategy (always fetch from network)
+  if (!ENABLE_CACHING) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          return networkResponse;
+        })
+        .catch(() => {
+          // Network failed, try cache as fallback
+          return caches.match(request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // Return offline page for navigation requests
+            if (request.mode === 'navigate') {
+              return caches.match('/index.html');
+            }
+            return new Response('Offline', {
+              status: 503,
+              statusText: 'Service Unavailable'
+            });
+          });
+        })
+    );
+    return;
+  }
+
+  // Production mode: Cache-first strategy
   event.respondWith(
     caches.match(request)
       .then((cachedResponse) => {
