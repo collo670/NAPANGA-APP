@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#ffffff"/>
+<title>Admin — Property Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="house.css">
+
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ DESKTOP SIDEBAR (hidden on mobile) ═══ -->
+<nav class="desktop-sidenav" id="deskNav" style="display:none">
+  <div class="ds-logo">
+    <div class="ds-logo-mark"><span class="dot"></span>Admin</div>
+    <div class="ds-sub">Property Manager Pro</div>
+  </div>
+  <div class="ds-menu">
+    <div class="ds-section">Management</div>
+    <button class="ds-item" id="dn-listings" onclick="switchPage('listings')">
+      <span class="ds-ico">🏘</span> All Listings <span class="ds-badge">12</span>
+    </button>
+    <button class="ds-item active" id="dn-new" onclick="switchPage('new')">
+      <span class="ds-ico">✦</span> Add Listing
+    </button>
+    <button class="ds-item" onclick="showToast('Viewings — coming soon','warn')">
+      <span class="ds-ico">📅</span> Viewings <span class="ds-badge amber">3</span>
+    </button>
+    <button class="ds-item" onclick="showToast('Inquiries — coming soon','')">
+      <span class="ds-ico">📩</span> Inquiries
+    </button>
+    <div class="ds-section" style="margin-top:10px">Analytics</div>
+    <button class="ds-item" onclick="showToast('Performance — coming soon','')"><span class="ds-ico">📊</span> Performance</button>
+    <button class="ds-item" onclick="showToast('Views & Leads — coming soon','')"><span class="ds-ico">👁</span> Views & Leads</button>
+    <div class="ds-section" style="margin-top:10px">Settings</div>
+    <button class="ds-item" onclick="showToast('Profile — coming soon','')"><span class="ds-ico">💼</span> Agency Profile</button>
+    <button class="ds-item" onclick="showToast('Preferences — coming soon','')"><span class="ds-ico">⚙️</span> Preferences</button>
+  </div>
+  <div class="ds-bottom">
+    <div class="ds-user">
+      <div class="ds-avatar">JA</div>
+      <div><div class="ds-uname">James Adeyemi</div><div class="ds-role">Property Admin</div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN AREA ═══ -->
+<div class="main-desktop" id="mainDesktop" style="flex:1;display:flex;flex-direction:column;min-width:0">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
+      <!-- Hamburger (mobile) / hidden on desktop since sidebar takes over -->
+      <button class="ham-btn" id="hamBtn" onclick="toggleDrawer()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-logo"><span class="dot"></span>Admin</div>
+      <div id="topbarTitle" style="font-family:var(--font-d);font-size:17px;font-weight:500;display:none">Add New Listing</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" onclick="openSheet('searchSheet')">🔍</div>
+      <div class="icon-btn" onclick="showToast('No new notifications','')">🔔<span class="notif-dot"></span></div>
+      <div class="icon-btn" id="previewBtn" onclick="openSheet('previewSheet')" title="Live Preview">👁</div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content" id="pageContent">
+
+    <!-- ── PAGE: ADD LISTING ── -->
+    <div class="page active" id="page-new">
+
+      <!-- stat cards -->
+      <div class="section-hdr" style="padding-bottom:8px">
+        <div><h2>Add New Listing</h2><p>Fill in the details to publish your property</p></div>
+      </div>
+      <div class="stats-scroll" id="statsRow">
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:#e8f5ee">🏠</div><div class="stat-change up">+2</div></div><div class="stat-val">12</div><div class="stat-lbl">Active Listings</div></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:#fff3e0">👁</div><div class="stat-change up">+18%</div></div><div class="stat-val">1,482</div><div class="stat-lbl">Views (30d)</div></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:#eef3fc">📩</div><div class="stat-change up">+5</div></div><div class="stat-val">34</div><div class="stat-lbl">Inquiries</div></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:#f3edfb">💰</div><div class="stat-change dn">-3%</div></div><div class="stat-val">$4.2k</div><div class="stat-lbl">Avg Rent</div></div>
+      </div>
+
+      <!-- STEP PILLS -->
+      <div class="step-pills" id="stepPills">
+        <div class="step-pill active" data-step="1" onclick="goStep(1)"><div class="sp-num">1</div><div class="sp-label">Photos</div></div>
+        <div class="step-pill" data-step="2" onclick="goStep(2)"><div class="sp-num">2</div><div class="sp-label">Details</div></div>
+        <div class="step-pill" data-step="3" onclick="goStep(3)"><div class="sp-num">3</div><div class="sp-label">Location</div></div>
+        <div class="step-pill" data-step="4" onclick="goStep(4)"><div class="sp-num">4</div><div class="sp-label">Amenities</div></div>
+        <div class="step-pill" data-step="5" onclick="goStep(5)"><div class="sp-num">5</div><div class="sp-label">Pricing</div></div>
+        <div class="step-pill" data-step="6" onclick="goStep(6)"><div class="sp-num">6</div><div class="sp-label">Settings</div></div>
+      </div>
+
+      <!-- DESKTOP: 2-col wrapper (JS injects on wide screens) -->
+      <div id="formWrapper">
+
+        <!-- STEP 1: PHOTOS -->
+        <div class="step-panel active" id="sp-1">
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">📷</span> Property Photos</div><button class="btn-link" onclick="document.getElementById('fileInput').click()">+ Add</button></div>
+            <div class="card-body">
+              <div class="dropzone" id="dropzone">
+                <div class="dz-bar" id="dzBar"><div class="dz-bar-fill" id="dzFill"></div></div>
+                <div class="dz-icon">🖼️</div>
+                <div class="dz-title">Drop photos here</div>
+                <div class="dz-sub">or <span onclick="document.getElementById('fileInput').click()">browse your device</span></div>
+                <div class="dz-note">JPG · PNG · WEBP · max 10MB · up to 20 photos</div>
+              </div>
+              <input type="file" id="fileInput" multiple accept="image/*"/>
+              <div class="img-grid" id="imgGrid"></div>
+              <div class="photo-tip" id="photoTip" style="display:none">
+                <span>💡</span><span>Listings with <strong>8+ photos</strong> get 3× more inquiries. Include exterior, living room, kitchen, bedroom, and bathroom.</span>
+              </div>
+            </div>
+          </div>
+          <div class="step-nav"><button class="btn btn-primary" onclick="goStep(2)">Next: Details →</button></div>
+        </div>
+
+        <!-- STEP 2: DETAILS -->
+        <div class="step-panel" id="sp-2">
+          <!-- AI suggestions -->
+          <div class="ai-block">
+            <div class="ai-hdr"><div class="ai-badge">✦ AI</div><div class="ai-title">Smart Suggestions</div></div>
+            <div class="ai-sug"><div class="ai-sug-lbl">Title Tip</div><div class="ai-sug-txt">Add bedrooms + lifestyle hook to title for 40% more clicks.<br><button class="ai-apply" onclick="applyAITitle()">Apply suggestion →</button></div></div>
+            <div class="ai-sug"><div class="ai-sug-lbl">Photo Tip</div><div class="ai-sug-txt">Bright kitchen photos as cover get 28% more saves.</div></div>
+          </div>
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">🏡</span> Property Details</div></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="lbl">Listing Title <span class="req">*</span></label>
+                <input class="field" id="listingTitle" placeholder="e.g. Bright 3-Bed Apartment with City Views" oninput="updatePreview();updateScore()"/>
+                <div class="err-msg" id="err-title">Please enter a listing title</div>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Property Type</label>
+                <div class="type-grid" id="typeGrid">
+                  <label class="type-card sel"><input type="radio" name="ptype" value="Apartment" checked onchange="updatePreview()"><div class="tc-icon">🏢</div><div class="tc-lbl">Apartment</div></label>
+                  <label class="type-card"><input type="radio" name="ptype" value="House" onchange="updatePreview()"><div class="tc-icon">🏡</div><div class="tc-lbl">House</div></label>
+                  <label class="type-card"><input type="radio" name="ptype" value="Villa" onchange="updatePreview()"><div class="tc-icon">🏰</div><div class="tc-lbl">Villa</div></label>
+                  <label class="type-card"><input type="radio" name="ptype" value="Studio" onchange="updatePreview()"><div class="tc-icon">🛋️</div><div class="tc-lbl">Studio</div></label>
+                  <label class="type-card"><input type="radio" name="ptype" value="Penthouse" onchange="updatePreview()"><div class="tc-icon">🌆</div><div class="tc-lbl">Penthouse</div></label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+                  <label class="lbl" style="margin:0">Description <span class="req">*</span></label>
+                  <button class="btn-link" onclick="generateDesc()">✦ AI Write</button>
+                </div>
+                <textarea class="field" id="description" maxlength="1500" placeholder="Describe the property — highlight features, light, views, nearby conveniences..." oninput="updateCharCount();updatePreview();updateScore()"></textarea>
+                <div class="char-bar"><span class="field-note">Aim for 150+ words</span><span class="char-ct" id="charCt">0 / 1500</span></div>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Room Configuration</label>
+                <div class="counters">
+                  <div class="counter-box"><div class="c-info"><div class="c-lbl">🛏 Beds</div><div class="c-val" id="v-beds">2</div></div><div class="c-ctrl"><button class="c-btn" onclick="adj('beds',-1)">−</button><button class="c-btn" onclick="adj('beds',1)">+</button></div></div>
+                  <div class="counter-box"><div class="c-info"><div class="c-lbl">🚿 Baths</div><div class="c-val" id="v-baths">1</div></div><div class="c-ctrl"><button class="c-btn" onclick="adj('baths',-1)">−</button><button class="c-btn" onclick="adj('baths',1)">+</button></div></div>
+                  <div class="counter-box"><div class="c-info"><div class="c-lbl">🚗 Parking</div><div class="c-val" id="v-parking">1</div></div><div class="c-ctrl"><button class="c-btn" onclick="adj('parking',-1)">−</button><button class="c-btn" onclick="adj('parking',1)">+</button></div></div>
+                  <div class="counter-box"><div class="c-info"><div class="c-lbl">🏢 Floors</div><div class="c-val" id="v-floors">1</div></div><div class="c-ctrl"><button class="c-btn" onclick="adj('floors',-1)">−</button><button class="c-btn" onclick="adj('floors',1)">+</button></div></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Floor Area</label>
+                  <div class="input-pfx"><span class="pfx" style="left:auto;right:12px;font-size:12px" id="areaUnitLabel">sqm</span><input class="field" type="number" id="floorArea" placeholder="0" style="padding-right:46px" oninput="updatePreview()"/></div>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Area Unit</label>
+                  <select class="field" id="areaUnit" onchange="document.getElementById('areaUnitLabel').textContent=this.value">
+                    <option value="sqm">sqm</option><option value="sqft">sqft</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Year Built</label>
+                  <input class="field" type="number" placeholder="e.g. 2019" min="1900" max="2025"/>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Furnishing</label>
+                  <select class="field" id="furnishing" onchange="updatePreview()">
+                    <option value="">Select...</option>
+                    <option>Fully Furnished</option><option>Semi-Furnished</option><option>Unfurnished</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Pet Policy</label>
+                  <select class="field"><option>Select...</option><option>Pets Allowed</option><option>No Pets</option><option>Small Pets Only</option></select>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Condition</label>
+                  <select class="field"><option>Select...</option><option>New / Just Built</option><option>Excellent</option><option>Good</option><option>Needs Renovation</option></select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(3)">Next: Location →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: LOCATION -->
+        <div class="step-panel" id="sp-3">
+          <div class="card">
+            <div class="card-hdr">
+              <div class="card-title"><span class="ct-icon">📍</span> Location</div>
+              <button class="btn-link" onclick="detectLocation()">📡 Auto-detect</button>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="lbl">Street Address <span class="req">*</span></label>
+                <input class="field" id="address" placeholder="e.g. 14 Parklands Road, Plot 22" oninput="updatePreview();updateMapLabel()"/>
+              </div>
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">City <span class="req">*</span></label>
+                  <input class="field" id="city" placeholder="e.g. Nairobi" oninput="updatePreview();updateMapLabel()"/>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Neighborhood</label>
+                  <input class="field" id="neighborhood" placeholder="e.g. Westlands" oninput="updatePreview()"/>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">State / Region</label>
+                  <input class="field" placeholder="e.g. Nairobi County"/>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Country</label>
+                  <select class="field">
+                    <option>🇰🇪 Kenya</option><option>🇹🇿 Tanzania</option><option>🇺🇬 Uganda</option>
+                    <option>🇷🇼 Rwanda</option><option>🇳🇬 Nigeria</option><option>🇬🇭 Ghana</option>
+                    <option>🇿🇦 South Africa</option><option>🌍 Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:12px">
+                <label class="lbl">Map Pin <span class="hint">— Tap to place pin</span></label>
+                <div class="map-box" id="mapBox" ontouchstart="handleMapTouch(event)" onclick="handleMapClick(event)">
+                  <svg class="map-grid-svg" width="100%" height="100%"><defs><pattern id="g" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M 26 0 L 0 0 0 26" fill="none" stroke="#000" stroke-width=".5"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>
+                  <div class="map-pin" id="mapPin">📍</div>
+                  <div class="map-lbl" id="mapLbl">Set address above</div>
+                  <div class="map-coords" id="mapCoords">—</div>
+                  <div class="map-hint">👆 Tap to move pin</div>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:12px">
+                <label class="lbl">Nearby Landmarks <span class="hint">— Press Enter to add</span></label>
+                <div class="tag-wrap" onclick="this.querySelector('.tag-inp').focus()">
+                  <span class="tag-inp" id="lmInp" contenteditable="true" onkeydown="addTag(event,'lmInp','lmArea')"></span>
+                </div>
+                <div id="lmArea"></div>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Transport Links <span class="hint">— Press Enter to add</span></label>
+                <div class="tag-wrap" onclick="this.querySelector('.tag-inp').focus()">
+                  <span class="tag-inp" id="trInp" contenteditable="true" onkeydown="addTag(event,'trInp','trArea')"></span>
+                </div>
+                <div id="trArea"></div>
+              </div>
+            </div>
+          </div>
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(4)">Next: Amenities →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: AMENITIES -->
+        <div class="step-panel" id="sp-4">
+          <div class="card">
+            <div class="card-hdr">
+              <div class="card-title"><span class="ct-icon">✨</span> Amenities</div>
+              <button class="btn-link" onclick="clearAmenities()">Clear all</button>
+            </div>
+            <div class="card-body" id="amenBody"></div>
+          </div>
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(5)">Next: Pricing →</button>
+          </div>
+        </div>
+
+        <!-- STEP 5: PRICING -->
+        <div class="step-panel" id="sp-5">
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">💰</span> Pricing & Availability</div></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Monthly Rent <span class="req">*</span></label>
+                  <div class="input-pfx"><span class="pfx">$</span><input class="field" type="number" id="rentPrice" placeholder="0" oninput="updatePreview();updatePriceCalc();updateScore()"/></div>
+                  <div class="err-msg" id="err-price">Enter a rent price</div>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Currency</label>
+                  <select class="field" id="currency" onchange="updatePreview();updatePriceCalc()">
+                    <option value="$">USD $</option><option value="KSh">KSh</option><option value="₦">NGN ₦</option>
+                    <option value="R">ZAR R</option><option value="€">EUR €</option><option value="£">GBP £</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Security Deposit</label>
+                  <div class="input-pfx"><span class="pfx">$</span><input class="field" type="number" id="deposit" placeholder="0" oninput="updatePriceCalc()"/></div>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Agency Fee</label>
+                  <div class="input-pfx"><span class="pfx">$</span><input class="field" type="number" id="agencyFee" placeholder="0" oninput="updatePriceCalc()"/></div>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Available From</label>
+                  <input class="field" type="date" id="availFrom"/>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="lbl">Min. Lease</label>
+                  <select class="field"><option>1 Month</option><option>3 Months</option><option selected>6 Months</option><option>12 Months</option><option>24 Months</option></select>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+              <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Move-in Cost Breakdown</div>
+              <div class="price-calc">
+                <div class="price-row"><span>Monthly Rent</span><span class="amt" id="calc-rent">—</span></div>
+                <div class="price-row"><span>Security Deposit</span><span class="amt" id="calc-dep">—</span></div>
+                <div class="price-row"><span>Agency Fee</span><span class="amt" id="calc-fee">—</span></div>
+                <div class="price-row"><span>Total Move-in</span><span class="amt" id="calc-total">—</span></div>
+              </div>
+
+              <div class="divider"></div>
+              <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">Utilities Included</div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">💧 Water</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">⚡ Electricity</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">📡 Internet / WiFi</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🗑️ Garbage Collection</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+            </div>
+          </div>
+
+          <!-- Agent contact -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">👤</span> Agent Contact</div></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0"><label class="lbl">Name</label><input class="field" placeholder="James Adeyemi" value="James Adeyemi"/></div>
+                <div class="form-group" style="margin-bottom:0"><label class="lbl">Phone</label><input class="field" type="tel" placeholder="+254 700 000 000"/></div>
+              </div>
+              <div class="form-row" style="margin-top:12px">
+                <div class="form-group" style="margin-bottom:0"><label class="lbl">Email</label><input class="field" type="email" placeholder="agent@nest.com"/></div>
+                <div class="form-group" style="margin-bottom:0"><label class="lbl">Preferred</label><select class="field"><option>Phone & Email</option><option>Phone Only</option><option>WhatsApp</option></select></div>
+              </div>
+              <div class="form-group" style="margin-top:12px">
+                <label class="lbl">Viewing Days</label>
+                <div class="sched-grid" id="schedGrid"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goStep(4)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(6)">Next: Settings →</button>
+          </div>
+        </div>
+
+        <!-- STEP 6: SETTINGS + SEO + PUBLISH -->
+        <div class="step-panel" id="sp-6">
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">📋</span> Listing Settings</div></div>
+            <div class="card-body">
+              <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Publication Status</div>
+              <div class="status-pills">
+                <div class="s-pill" data-s="draft" onclick="selStatus(this)"><span class="s-dot"></span><span class="s-lbl">Draft</span></div>
+                <div class="s-pill sel" data-s="published" onclick="selStatus(this)"><span class="s-dot"></span><span class="s-lbl">Published</span></div>
+                <div class="s-pill" data-s="paused" onclick="selStatus(this)"><span class="s-dot"></span><span class="s-lbl">Paused</span></div>
+                <div class="s-pill" data-s="archived" onclick="selStatus(this)"><span class="s-dot"></span><span class="s-lbl">Archived</span></div>
+              </div>
+              <div class="divider"></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">⭐ Featured Listing</div><div class="tog-desc">Costs 1 credit/day — shows at top of search</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🔔 Instant Notifications</div><div class="tog-desc">Get notified on new inquiries</div></div><label class="toggle"><input type="checkbox" checked><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">📊 Analytics Tracking</div><div class="tog-desc">Track views, clicks & conversion</div></div><label class="toggle"><input type="checkbox" checked><div class="tog-track"></div></label></div>
+              <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🔄 Auto-renew</div><div class="tog-desc">Re-list automatically when expired</div></div><label class="toggle"><input type="checkbox"><div class="tog-track"></div></label></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">🔍</span> SEO</div></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="lbl">Meta Title</label>
+                <input class="field" id="seoTitle" placeholder="Auto-filled from listing title" oninput="updateSEO()"/>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Meta Description</label>
+                <textarea class="field" id="seoDesc" rows="2" placeholder="Short compelling summary..." oninput="updateSEO()"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Google Preview</label>
+                <div class="seo-prev">
+                  <div class="seo-url" id="seoUrl">nestadmin.com/listings/your-listing</div>
+                  <div class="seo-t" id="seoTDisp">Your listing title</div>
+                  <div class="seo-d" id="seoDDisp">Your meta description will appear here…</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="lbl">Tags / Keywords <span class="hint">— Enter to add</span></label>
+                <div class="tag-wrap" onclick="this.querySelector('.tag-inp').focus()">
+                  <span class="tag-inp" id="tagInp" contenteditable="true" onkeydown="addTag(event,'tagInp','tagArea')"></span>
+                </div>
+                <div id="tagArea"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity log -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">🕓</span> Activity Log</div></div>
+            <div class="card-body"><div id="activityLog"></div></div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-ghost" onclick="goStep(5)">← Back</button>
+          </div>
+
+          <!-- BIG PUBLISH BUTTONS -->
+          <div style="padding:0 16px 20px;display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-primary" style="font-size:16px;padding:16px" onclick="publishListing()">✦ Publish Listing</button>
+            <button class="btn btn-ghost" onclick="saveDraft()">💾 Save as Draft</button>
+          </div>
+        </div>
+
+        <!-- DESKTOP SIDEBAR (hidden on mobile, shown via JS on desktop) -->
+        <div id="desktopSidebar" style="display:none">
+          <!-- Listing Score -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">📈</span> Listing Score</div></div>
+            <div class="card-body">
+              <div class="score-ring">
+                <div class="score-num" id="dScorePct">0%</div>
+                <div class="score-info">
+                  <div class="score-grade" id="dScoreGrade" style="background:var(--red-light);color:var(--red)">Needs Work</div>
+                  <div class="score-bar-bg"><div class="score-fill" id="dScoreFill" style="background:var(--red);width:0%"></div></div>
+                </div>
+              </div>
+              <div id="dScoreTips"></div>
+            </div>
+          </div>
+          <!-- Mini chart -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ct-icon">📊</span> Projected Views</div></div>
+            <div class="card-body">
+              <div style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Est. daily views after publishing</div>
+              <div class="mini-chart" id="dMiniChart"></div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10.5px;color:var(--light)">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+          </div>
+          <!-- Quick actions -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-primary" onclick="publishListing()">✦ Publish Listing</button>
+            <button class="btn btn-ghost" onclick="saveDraft()">💾 Save Draft</button>
+            <button class="btn btn-ghost" onclick="openSheet('previewSheet')">👁 Preview</button>
+          </div>
+        </div>
+
+      </div><!-- #formWrapper -->
+    </div><!-- #page-new -->
+
+    <!-- ── PAGE: ALL LISTINGS ── -->
+    <div class="page" id="page-listings">
+      <div class="section-hdr">
+        <div><h2>All Listings</h2><p>Manage your properties</p></div>
+        <button class="btn-link" onclick="switchPage('new')">+ Add</button>
+      </div>
+      <div class="listing-filters">
+        <div class="filter-pill active" onclick="filterListings(this,'all')">All (12)</div>
+        <div class="filter-pill" onclick="filterListings(this,'published')">Published</div>
+        <div class="filter-pill" onclick="filterListings(this,'draft')">Drafts</div>
+        <div class="filter-pill" onclick="filterListings(this,'paused')">Paused</div>
+        <div class="filter-pill" onclick="filterListings(this,'archived')">Archived</div>
+      </div>
+      <div id="listingsContainer"></div>
+    </div>
+
+    <!-- ── PAGE: SCORE ── -->
+    <div class="page" id="page-score">
+      <div class="section-hdr"><h2>Listing Score</h2><p>Improve your listing quality</p></div>
+      <div style="padding:0 16px">
+        <div class="card">
+          <div class="card-body">
+            <div class="score-ring">
+              <div class="score-num" id="mScorePct">0%</div>
+              <div class="score-info">
+                <div class="score-grade" id="mScoreGrade" style="background:var(--red-light);color:var(--red)">Needs Work</div>
+                <div class="score-bar-bg"><div class="score-fill" id="mScoreFill" style="background:var(--red);width:0%"></div></div>
+              </div>
+            </div>
+            <div id="mScoreTips"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="ct-icon">📊</span> Projected Views</div></div>
+          <div class="card-body">
+            <div style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Est. daily views after publishing</div>
+            <div class="mini-chart" id="mMiniChart"></div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10.5px;color:var(--light)">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: SETTINGS ── -->
+    <div class="page" id="page-settings">
+      <div class="section-hdr"><h2>Settings</h2></div>
+      <div style="padding:0 16px">
+        <div class="card">
+          <div class="card-body">
+            <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🌙 Dark Mode</div><div class="tog-desc">Coming soon</div></div><label class="toggle"><input type="checkbox" disabled><div class="tog-track"></div></label></div>
+            <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🔔 Push Notifications</div></div><label class="toggle"><input type="checkbox" checked><div class="tog-track"></div></label></div>
+            <div class="tog-row"><div class="tog-left"><div class="tog-lbl">📧 Email Digest</div><div class="tog-desc">Weekly summary of listing performance</div></div><label class="toggle"><input type="checkbox" checked><div class="tog-track"></div></label></div>
+            <div class="tog-row"><div class="tog-left"><div class="tog-lbl">🤖 AI Suggestions</div><div class="tog-desc">Show smart tips while editing</div></div><label class="toggle"><input type="checkbox" checked><div class="tog-track"></div></label></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">👤 Agent Profile</div></div>
+          <div class="card-body">
+            <div class="form-group"><label class="lbl">Name</label><input class="field" value="James Adeyemi"/></div>
+            <div class="form-group"><label class="lbl">Email</label><input class="field" type="email" value="james@nestadmin.com"/></div>
+            <div class="form-group"><label class="lbl">Phone</label><input class="field" type="tel" value="+254 700 000 000"/></div>
+            <button class="btn btn-ghost" style="width:100%;margin-top:4px">Save Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .page-content -->
+
+  <!-- DESKTOP SHORTCUT BAR -->
+  <div class="shortcut-bar" id="shortcutBar" style="display:none">
+    <div class="sc-hints">
+      <span><span class="kbd">Ctrl+S</span> Save Draft</span>
+      <span><span class="kbd">Ctrl+P</span> Publish</span>
+      <span><span class="kbd">Ctrl+⇧+V</span> Preview</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="clearForm()">🗑 Clear</button>
+      <button class="btn btn-ghost btn-sm" onclick="saveDraft()">💾 Draft</button>
+      <button class="btn btn-primary btn-sm" onclick="publishListing()">✦ Publish</button>
+    </div>
+  </div>
+
+</div><!-- .main-desktop -->
+</div><!-- .app -->
+
+<!-- ═══ DRAWER OVERLAY ═══ -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- ═══ SLIDE-IN DRAWER MENU ═══ -->
+<nav class="drawer" id="drawer">
+  <!-- Drawer header -->
+  <div class="drawer-top">
+    <div class="drawer-logo"><span class="dot"></span>NestAdmin</div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+
+  <!-- User card -->
+  <div class="drawer-user">
+    <div class="drawer-avatar">JA</div>
+    <div>
+      <div class="drawer-uname">James Adeyemi</div>
+      <div class="drawer-role">Property Admin · Nairobi</div>
+    </div>
+  </div>
+
+  <!-- Nav items -->
+  <div class="drawer-body">
+    <div class="drawer-section">Management</div>
+
+    <button class="drawer-item active" id="di-new" onclick="drawerNav('new')">
+      <span class="di-ico">✦</span>
+      <span class="di-label">Add New Listing</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <button class="drawer-item" id="di-listings" onclick="drawerNav('listings')">
+      <span class="di-ico">🏘</span>
+      <span class="di-label">All Listings</span>
+      <span class="di-badge">12</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Viewings')">
+      <span class="di-ico">📅</span>
+      <span class="di-label">Viewing Schedule</span>
+      <span class="di-badge amber">3</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Inquiries')">
+      <span class="di-ico">📩</span>
+      <span class="di-label">Inquiries</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <div class="drawer-section">Analytics</div>
+
+    <button class="drawer-item" id="di-score" onclick="drawerNav('score')">
+      <span class="di-ico">📈</span>
+      <span class="di-label">Listing Score</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Performance')">
+      <span class="di-ico">📊</span>
+      <span class="di-label">Performance</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Views & Leads')">
+      <span class="di-ico">👁</span>
+      <span class="di-label">Views & Leads</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <div class="drawer-section">Settings & Account</div>
+
+    <button class="drawer-item" id="di-settings" onclick="drawerNav('settings')">
+      <span class="di-ico">⚙️</span>
+      <span class="di-label">Preferences</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Agency Profile')">
+      <span class="di-ico">💼</span>
+      <span class="di-label">Agency Profile</span>
+      <span class="di-arrow">›</span>
+    </button>
+
+    <button class="drawer-item" onclick="drawerToast('Help & Support')">
+      <span class="di-ico">❓</span>
+      <span class="di-label">Help & Support</span>
+      <span class="di-arrow">›</span>
+    </button>
+  </div>
+
+  <!-- Drawer bottom actions -->
+  <div class="drawer-bottom">
+    <button class="drawer-publish" onclick="closeDrawer();publishListing()">✦ Publish Listing</button>
+    <button class="drawer-draft" onclick="closeDrawer();saveDraft()">💾 Save as Draft</button>
+  </div>
+</nav>
+
+<!-- ═══ BOTTOM SHEETS ═══ -->
+<!-- Preview Sheet -->
+<div class="sheet-overlay" id="previewOverlay" onclick="closeSheet('previewSheet','previewOverlay')"></div>
+<div class="sheet" id="previewSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Live Preview</div>
+    <button class="btn-link" onclick="closeSheet('previewSheet','previewOverlay')">✕ Close</button>
+  </div>
+  <div class="sheet-body" style="padding:0">
+    <div class="preview-img-area" id="prevImgArea">
+      <div class="preview-img-placeholder" id="prevImgPlaceholder"><div style="font-size:36px">🏠</div><div>No photos uploaded yet</div></div>
+    </div>
+    <div class="preview-body">
+      <div class="prev-badge" id="prevBadge">Apartment</div>
+      <div class="prev-title" id="prevTitle" style="color:var(--muted);font-style:italic">Your listing title</div>
+      <div class="prev-loc" id="prevLoc">📍 Location will appear here</div>
+      <div class="prev-price" id="prevPrice">—</div>
+      <div class="prev-price-note">per month</div>
+      <div class="prev-stats">
+        <div class="prev-stat"><div class="ps-ico">🛏</div><div class="ps-v" id="ps-beds">2</div><div class="ps-l">Beds</div></div>
+        <div class="prev-stat"><div class="ps-ico">🚿</div><div class="ps-v" id="ps-baths">1</div><div class="ps-l">Baths</div></div>
+        <div class="prev-stat"><div class="ps-ico">🚗</div><div class="ps-v" id="ps-park">1</div><div class="ps-l">Parking</div></div>
+      </div>
+      <div class="prev-chips" id="prevChips"><span style="font-size:12px;color:var(--light);font-style:italic">No amenities selected</span></div>
+    </div>
+  </div>
+  <div class="sheet-footer">
+    <button class="btn btn-ghost" style="flex:1" onclick="showToast('Share link copied!','success')">🔗 Share</button>
+    <button class="btn btn-primary" style="flex:1" onclick="publishListing()">✦ Publish</button>
+  </div>
+</div>
+
+<!-- Search Sheet -->
+<div class="sheet-overlay" id="searchOverlay" onclick="closeSheet('searchSheet','searchOverlay')"></div>
+<div class="sheet" id="searchSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header"><div class="sheet-title">Search</div><button class="btn-link" onclick="closeSheet('searchSheet','searchOverlay')">✕</button></div>
+  <div class="sheet-body">
+    <input class="field" placeholder="Search listings, locations, cities..." oninput="showToast('Searching...','')"/>
+    <div class="divider"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Recent Searches</div>
+    <div onclick="closeSheet('searchSheet','searchOverlay')" class="chip" style="margin-bottom:8px">🕐 Westlands 3-bed</div>
+    <div onclick="closeSheet('searchSheet','searchOverlay')" class="chip" style="margin-bottom:8px">🕐 Nairobi studio under $500</div>
+    <div onclick="closeSheet('searchSheet','searchOverlay')" class="chip">🕐 Karen villa furnished</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const S = {
+  images:[], primary:0,
+  counters:{beds:2,baths:1,parking:1,floors:1},
+  amenities:new Set(),
+  currentStep:1, currentPage:'new',
+  isDesktop:false,
+  history:[],
+};
+
+const AMENITIES = {
+  essential:[{i:'📶',l:'WiFi'},{i:'❄️',l:'Air Con'},{i:'🔥',l:'Heating'},{i:'📺',l:'Cable TV'},{i:'🧺',l:'Washer/Dryer'},{i:'🛗',l:'Elevator'},{i:'🏋️',l:'Gym'},{i:'🏊',l:'Pool'}],
+  kitchen:  [{i:'🍳',l:'Kitchen'},{i:'🧊',l:'Refrigerator'},{i:'📦',l:'Microwave'},{i:'🫙',l:'Dishwasher'},{i:'🔥',l:'Oven/Stove'},{i:'☕',l:'Coffee Maker'}],
+  outdoor:  [{i:'🌿',l:'Garden'},{i:'🌅',l:'Balcony'},{i:'☀️',l:'Rooftop'},{i:'🎾',l:'Sports Court'},{i:'🅿️',l:'Parking'},{i:'🌲',l:'Green View'}],
+  security: [{i:'📷',l:'CCTV'},{i:'🚪',l:'Gated'},{i:'💂',l:'Guard'},{i:'🔔',l:'Intercom'},{i:'🔐',l:'Smart Lock'},{i:'🚨',l:'Alarm'}],
+  access:   [{i:'♿',l:'Wheelchair'},{i:'🅿️',l:'Accessible Parking'},{i:'🛗',l:'Accessible Lift'}],
+};
+
+const SCORE_CHECKS = [
+  {k:'photos',   t:'Add at least 3 photos',      c:()=>S.images.length>=3},
+  {k:'photos8',  t:'Upload 8+ photos',            c:()=>S.images.length>=8},
+  {k:'title',    t:'Write a listing title',        c:()=>!!g('listingTitle')},
+  {k:'desc',     t:'Add description (80+ chars)',  c:()=>(g('description')||'').length>=80},
+  {k:'addr',     t:'Enter street address',         c:()=>!!g('address')},
+  {k:'city',     t:'Enter a city',                 c:()=>!!g('city')},
+  {k:'price',    t:'Set a monthly rent',           c:()=>!!g('rentPrice')},
+  {k:'amenities',t:'Select 4+ amenities',          c:()=>S.amenities.size>=4},
+];
+
+const MOCK_LISTINGS = [
+  {title:'Bright 3-Bed Penthouse',type:'Penthouse',loc:'Westlands, Nairobi',price:'$2,200',beds:3,status:'published',views:382},
+  {title:'Modern Studio Apartment',type:'Studio',loc:'Kilimani, Nairobi',price:'$450',beds:0,status:'published',views:215},
+  {title:'Cozy 2-Bed House',type:'House',loc:'Karen, Nairobi',price:'$800',beds:2,status:'draft',views:0},
+  {title:'Luxury 4-Bed Villa',type:'Villa',loc:'Muthaiga, Nairobi',price:'$3,500',beds:4,status:'paused',views:124},
+  {title:'1-Bed City Apartment',type:'Apartment',loc:'CBD, Nairobi',price:'$550',beds:1,status:'published',views:473},
+  {title:'3-Bed Townhouse',type:'House',loc:'Lavington, Nairobi',price:'$1,100',beds:3,status:'archived',views:58},
+];
+
+const $ = id=>document.getElementById(id);
+const g = id=>$( id)?$( id).value:'';
+function fmt(n){return n?Number(n).toLocaleString():'—';}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+function init(){
+  buildAmenities();buildSchedule();buildListings();
+  setupDrop();setupTypeCards();setupKeyboard();
+  $('availFrom').value=new Date().toISOString().split('T')[0];
+  buildMiniCharts();updateScore();updateSEO();
+  logAct('Draft started — new listing');
+  checkDesktop();
+  window.addEventListener('resize',checkDesktop);
+}
+
+function checkDesktop(){
+  const wide=window.innerWidth>=768;
+  S.isDesktop=wide;
+  $('deskNav').style.display=wide?'flex':'none';
+  // Hide hamburger and drawer on desktop (sidebar nav replaces it)
+  $('hamBtn').style.display=wide?'none':'flex';
+  $('drawer').classList.remove('open');
+  $('drawerOverlay').classList.remove('open');
+  $('hamBtn').classList.remove('open');
+  document.body.style.overflow='';
+  $('shortcutBar').style.display=wide?'flex':'none';
+  $('topbarTitle').style.display=wide?'block':'none';
+  if(wide){wrapDesktopLayout();}else{unwrapDesktopLayout();}
+}
+
+// ── DRAWER ─────────────────────────────────────────────
+function toggleDrawer(){
+  const open=$('drawer').classList.contains('open');
+  open?closeDrawer():openDrawer();
+}
+function openDrawer(){
+  $('drawer').classList.add('open');
+  $('drawerOverlay').classList.add('open');
+  $('hamBtn').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  $('drawer').classList.remove('open');
+  $('drawerOverlay').classList.remove('open');
+  $('hamBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+function drawerNav(page){
+  closeDrawer();
+  switchPage(page);
+}
+function drawerToast(name){
+  closeDrawer();
+  showToast(`${name} — coming soon`,'');
+}
+
+function wrapDesktopLayout(){
+  const wrapper=$('formWrapper');
+  if(wrapper.classList.contains('desktop-form-grid'))return;
+  wrapper.classList.add('desktop-form-grid');
+  // Create main col
+  let mainCol=document.getElementById('desktopMainCol');
+  if(!mainCol){
+    mainCol=document.createElement('div');
+    mainCol.id='desktopMainCol';mainCol.className='desktop-form-col';
+    // Move all step panels into main col
+    ['sp-1','sp-2','sp-3','sp-4','sp-5','sp-6'].forEach(id=>{const el=$(id);if(el)mainCol.appendChild(el);});
+    wrapper.innerHTML='';wrapper.appendChild(mainCol);
+  }
+  // Sidebar
+  const sb=$('desktopSidebar');sb.style.display='flex';sb.style.flexDirection='column';sb.style.gap='14px';
+  wrapper.appendChild(sb);
+  wrapper.style.padding='14px 28px';
+}
+
+function unwrapDesktopLayout(){
+  const wrapper=$('formWrapper');
+  if(!wrapper.classList.contains('desktop-form-grid'))return;
+  wrapper.classList.remove('desktop-form-grid');
+  wrapper.style.padding='';
+  const mainCol=$('desktopMainCol');
+  if(mainCol){['sp-1','sp-2','sp-3','sp-4','sp-5','sp-6'].forEach(id=>{const el=$(id);if(el)wrapper.appendChild(el);});mainCol.remove();}
+  $('desktopSidebar').style.display='none';
+  wrapper.style.padding='';
+}
+
+// ═══════════════════════════════════════
+//  PAGE SWITCHING
+// ═══════════════════════════════════════
+function switchPage(page){
+  S.currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $('page-'+page).classList.add('active');
+  // Update drawer active item
+  document.querySelectorAll('.drawer-item').forEach(t=>t.classList.remove('active'));
+  const di=$('di-'+page);if(di)di.classList.add('active');
+  // desktop nav
+  document.querySelectorAll('.ds-item').forEach(t=>t.classList.remove('active'));
+  const dn=$('dn-'+page);if(dn)dn.classList.add('active');
+  $('topbarTitle').textContent={new:'Add New Listing',listings:'All Listings',score:'Listing Score',settings:'Settings'}[page]||'';
+  pageContent.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════
+//  STEP WIZARD
+// ═══════════════════════════════════════
+function goStep(n){
+  // update pills
+  document.querySelectorAll('.step-pill').forEach(p=>{
+    const s=parseInt(p.dataset.step);
+    p.classList.remove('active','done');
+    if(s===n)p.classList.add('active');
+    else if(s<n)p.classList.add('done');
+  });
+  // scroll pill into view
+  const activePill=document.querySelector('.step-pill.active');
+  if(activePill)activePill.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  // show/hide panels
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  $('sp-'+n).classList.add('active');
+  S.currentStep=n;
+  // scroll to top
+  $('pageContent').scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════
+//  TYPE CARDS
+// ═══════════════════════════════════════
+function setupTypeCards(){
+  document.querySelectorAll('.type-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+      document.querySelectorAll('.type-card').forEach(x=>x.classList.remove('sel'));
+      c.classList.add('sel');updatePreview();
+    });
+  });
+}
+
+// ═══════════════════════════════════════
+//  IMAGE HANDLING
+// ═══════════════════════════════════════
+function setupDrop(){
+  const dz=$('dropzone');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');processFiles(e.dataTransfer.files);});
+  $('fileInput').addEventListener('change',e=>processFiles(e.target.files));
+}
+
+function processFiles(files){
+  if(S.images.length+files.length>20){showToast('Max 20 photos allowed','error');return;}
+  const bar=$('dzBar'),fill=$('dzFill');bar.style.display='block';fill.style.width='0%';
+  let loaded=0;
+  Array.from(files).forEach(file=>{
+    if(!file.type.startsWith('image/')){showToast('Only image files allowed','error');return;}
+    if(file.size>10*1024*1024){showToast(`${file.name} exceeds 10MB`,'error');return;}
+    const r=new FileReader();
+    r.onload=e=>{
+      S.images.push({src:e.target.result,name:file.name,rotation:0});
+      loaded++;fill.style.width=(loaded/files.length*100)+'%';
+      if(loaded===files.length)setTimeout(()=>{bar.style.display='none';},500);
+      renderImages();updatePreview();updateScore();
+      logAct(`Photo added: ${file.name}`);
+    };
+    r.readAsDataURL(file);
+  });
+  $('fileInput').value='';
+}
+
+function renderImages(){
+  const grid=$('imgGrid');grid.innerHTML='';
+  const tip=$('photoTip');tip.style.display=S.images.length&&S.images.length<8?'flex':'none';
+  S.images.forEach((img,i)=>{
+    const t=document.createElement('div');
+    t.className='img-thumb'+(i===S.primary?' primary':'');
+    t.innerHTML=`<img src="${img.src}" alt="${img.name}" style="transform:rotate(${img.rotation}deg)"/>
+      ${i===S.primary?'<div class="primary-tag">Cover</div>':''}
+      <button class="img-rm" onclick="rmImg(event,${i})">✕</button>
+      <div class="img-num">${i+1}</div>`;
+    t.addEventListener('click',()=>{S.primary=i;renderImages();updatePreview();showToast('Cover photo set','success');});
+    grid.appendChild(t);
+  });
+}
+
+function rmImg(e,i){
+  e.stopPropagation();
+  S.images.splice(i,1);
+  if(S.primary>=S.images.length)S.primary=Math.max(0,S.images.length-1);
+  renderImages();updatePreview();updateScore();
+}
+
+// ═══════════════════════════════════════
+//  COUNTERS
+// ═══════════════════════════════════════
+function adj(key,d){
+  S.counters[key]=Math.max(0,S.counters[key]+d);
+  $('v-'+key).textContent=S.counters[key];
+  updatePreview();updateScore();
+}
+
+// ═══════════════════════════════════════
+//  AMENITIES
+// ═══════════════════════════════════════
+function buildAmenities(){
+  const body=$('amenBody');
+  const labels={essential:'🔑 Essential',kitchen:'🍽️ Kitchen',outdoor:'🌿 Outdoor',security:'🔒 Security',access:'♿ Accessibility'};
+  Object.entries(AMENITIES).forEach(([grp,items])=>{
+    const sec=document.createElement('div');sec.className='amen-section';
+    sec.innerHTML=`<div class="amen-lbl">${labels[grp]}</div><div class="chips" id="ag-${grp}"></div>`;
+    body.appendChild(sec);
+    items.forEach(({i,l})=>{
+      const c=document.createElement('div');c.className='chip';
+      c.innerHTML=`<span class="chip-i">${i}</span>${l}`;
+      c.onclick=()=>{
+        if(S.amenities.has(l)){S.amenities.delete(l);c.classList.remove('on');}
+        else{S.amenities.add(l);c.classList.add('on');}
+        updatePreview();updateScore();
+      };
+      document.getElementById('ag-'+grp).appendChild(c);
+    });
+  });
+}
+function clearAmenities(){S.amenities.clear();document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));updatePreview();updateScore();showToast('Amenities cleared','warn');}
+
+// ═══════════════════════════════════════
+//  SCHEDULE
+// ═══════════════════════════════════════
+const activeDays=new Set([1,2,3,4]);
+function buildSchedule(){
+  const grid=$('schedGrid');
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach((d,i)=>{
+    const sl=document.createElement('div');
+    sl.className='day-sl'+(activeDays.has(i)?' on':'');
+    sl.innerHTML=`<div class="dn">${d}</div><div class="dt">${activeDays.has(i)?'✓':'—'}</div>`;
+    sl.onclick=()=>{
+      activeDays.has(i)?activeDays.delete(i):activeDays.add(i);
+      sl.classList.toggle('on');
+      sl.querySelector('.dt').textContent=activeDays.has(i)?'✓':'—';
+    };
+    grid.appendChild(sl);
+  });
+}
+
+// ═══════════════════════════════════════
+//  TAGS
+// ═══════════════════════════════════════
+function addTag(e,inpId,areaId){
+  if(e.key!=='Enter')return;
+  e.preventDefault();
+  const val=$(inpId).innerText.trim();
+  if(!val)return;
+  const area=$(areaId);
+  const tag=document.createElement('span');tag.className='tag';
+  tag.innerHTML=`${val}<button onclick="this.parentElement.remove()">×</button>`;
+  // Insert before the input
+  const wrap=$(inpId).closest('.tag-wrap');
+  wrap.insertBefore(tag,$(inpId));
+  $(inpId).innerText='';
+}
+
+// ═══════════════════════════════════════
+//  MAP
+// ═══════════════════════════════════════
+function updateMapLabel(){
+  const addr=g('address'),city=g('city');
+  const label=[addr,city].filter(Boolean).join(', ')||'Set address above';
+  $('mapLbl').textContent=label;
+  if(addr||city)$('mapCoords').textContent=`${(1.286+Math.random()*.04-.02).toFixed(4)}°N, ${(36.817+Math.random()*.04-.02).toFixed(4)}°E`;
+}
+function handleMapClick(e){moveMapPin(e.clientX,e.clientY,e.currentTarget);}
+function handleMapTouch(e){if(e.touches[0]){e.preventDefault();moveMapPin(e.touches[0].clientX,e.touches[0].clientY,e.currentTarget);}}
+function moveMapPin(cx,cy,box){
+  const r=box.getBoundingClientRect();
+  const px=Math.max(5,Math.min(95,((cx-r.left)/r.width*100))).toFixed(1);
+  const py=Math.max(10,Math.min(90,((cy-r.top)/r.height*100))).toFixed(1);
+  const pin=$('mapPin');pin.style.left=px+'%';pin.style.top=py+'%';pin.style.transform='translate(-50%,-105%)';
+  const lat=(1.286+(parseFloat(py)-50)/200).toFixed(4);
+  const lng=(36.817+(parseFloat(px)-50)/200).toFixed(4);
+  $('mapCoords').textContent=`${lat}°N, ${lng}°E`;
+  showToast('📍 Pin updated','success');
+}
+function detectLocation(){
+  showToast('📡 Detecting location...','');
+  setTimeout(()=>{
+    $('city').value='Nairobi';
+    $('address').value='Westlands Road, Plot 14';
+    $('neighborhood').value='Westlands';
+    updateMapLabel();updatePreview();
+    showToast('📍 Location detected!','success');
+  },1200);
+}
+
+// ═══════════════════════════════════════
+//  STATUS
+// ═══════════════════════════════════════
+function selStatus(el){document.querySelectorAll('.s-pill').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');logAct(`Status: ${el.dataset.s}`);}
+
+// ═══════════════════════════════════════
+//  CHAR COUNT
+// ═══════════════════════════════════════
+function updateCharCount(){
+  const len=(g('description')||'').length;
+  const el=$('charCt');el.textContent=`${len} / 1500`;
+  el.style.color=len>1200?'var(--amber)':len>1450?'var(--red)':'var(--light)';
+}
+
+// ═══════════════════════════════════════
+//  PRICE CALC
+// ═══════════════════════════════════════
+function updatePriceCalc(){
+  const cur=g('currency')||'$';
+  const rent=parseFloat(g('rentPrice'))||0;
+  const dep=parseFloat(g('deposit'))||0;
+  const fee=parseFloat(g('agencyFee'))||0;
+  $('calc-rent').textContent=rent?`${cur}${fmt(rent)}`:'—';
+  $('calc-dep').textContent=dep?`${cur}${fmt(dep)}`:'—';
+  $('calc-fee').textContent=fee?`${cur}${fmt(fee)}`:'—';
+  $('calc-total').textContent=(rent||dep||fee)?`${cur}${fmt(rent+dep+fee)}`:'—';
+}
+
+// ═══════════════════════════════════════
+//  SEO
+// ═══════════════════════════════════════
+function updateSEO(){
+  const t=g('seoTitle')||g('listingTitle')||'Your listing title';
+  const d=g('seoDesc')||(g('description')||'').substring(0,160)||'Your description…';
+  const slug=(g('listingTitle')||'listing').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  $('seoUrl').textContent=`nestadmin.com/listings/${slug}`;
+  $('seoTDisp').textContent=t.substring(0,60);
+  $('seoDDisp').textContent=d.substring(0,160);
+}
+
+// ═══════════════════════════════════════
+//  LIVE PREVIEW
+// ═══════════════════════════════════════
+function updatePreview(){
+  const title=g('listingTitle'),city=g('city'),nb=g('neighborhood'),price=g('rentPrice'),cur=g('currency')||'$';
+  const type=document.querySelector('input[name="ptype"]:checked')?.value||'Apartment';
+
+  const pt=$('prevTitle');
+  pt.textContent=title||'Your listing title';pt.style.color=title?'var(--text)':'var(--muted)';pt.style.fontStyle=title?'normal':'italic';
+  const loc=[nb,city].filter(Boolean).join(', ');
+  $('prevLoc').textContent=loc?`📍 ${loc}`:'📍 Location here';
+  $('prevBadge').textContent=type;
+  const pp=$('prevPrice');pp.textContent=price?`${cur}${Number(price).toLocaleString()}`:'—';pp.style.color=price?'var(--accent)':'var(--muted)';
+  $('ps-beds').textContent=S.counters.beds;$('ps-baths').textContent=S.counters.baths;$('ps-park').textContent=S.counters.parking;
+
+  const pia=$('prevImgArea'),ppl=$('prevImgPlaceholder');
+  if(S.images.length){
+    ppl.style.display='none';
+    let img=pia.querySelector('img');if(!img){img=document.createElement('img');pia.insertBefore(img,pia.firstChild);}
+    img.src=S.images[S.primary].src;img.style.cssText='width:100%;height:100%;object-fit:cover;position:absolute;inset:0';
+  } else {ppl.style.display='flex';const i=pia.querySelector('img');if(i)i.remove();}
+
+  const pc=$('prevChips');
+  if(S.amenities.size){
+    pc.innerHTML=[...S.amenities].slice(0,5).map(a=>`<span class="prev-chip">${a}</span>`).join('')+(S.amenities.size>5?`<span class="prev-chip">+${S.amenities.size-5}</span>`:'');
+  } else pc.innerHTML='<span style="font-size:12px;color:var(--light);font-style:italic">No amenities</span>';
+
+  updateSEO();
+}
+
+// ═══════════════════════════════════════
+//  SCORE
+// ═══════════════════════════════════════
+function updateScore(){
+  const done=SCORE_CHECKS.filter(c=>c.c());
+  const pct=Math.round(done.length/SCORE_CHECKS.length*100);
+  let color,grade,gbg,gcol;
+  if(pct<30){color='var(--red)';grade='Needs Work';gbg='var(--red-light)';gcol='var(--red)';}
+  else if(pct<60){color='var(--amber)';grade='Getting There';gbg='var(--amber-light)';gcol='var(--amber)';}
+  else if(pct<85){color='#2d9e5e';grade='Looking Good!';gbg:'#e5f7ed';gcol='#2d9e5e';}
+  else{color='var(--accent)';grade='Excellent ✦';gbg='var(--accent-light)';gcol='var(--accent)';}
+  const tips=SCORE_CHECKS.map(c=>`<div class="score-tip ${c.c()?'done':'todo'}"><div class="tip-ico">${c.c()?'✓':'○'}</div><div>${c.t}</div></div>`).join('');
+  // Update all score displays
+  [['mScorePct','mScoreGrade','mScoreFill','mScoreTips'],['dScorePct','dScoreGrade','dScoreFill','dScoreTips']].forEach(([p,g,f,t])=>{
+    if($(p))$(p).textContent=pct+'%';
+    if($(g)){$(g).textContent=grade;$(g).style.background=gbg;$(g).style.color=gcol;}
+    if($(f)){$(f).style.width=pct+'%';$(f).style.background=color;}
+    if($(t))$(t).innerHTML=tips;
+  });
+  updateMiniCharts(pct);
+}
+
+function buildMiniCharts(){
+  ['mMiniChart','dMiniChart'].forEach(id=>{
+    const el=$(id);if(!el)return;el.innerHTML='';
+    [12,18,22,30,28,35,20].forEach(h=>{const b=document.createElement('div');b.className='mc-bar';b.style.height=h+'px';el.appendChild(b);});
+  });
+}
+function updateMiniCharts(pct){
+  const base=[12,18,22,30,28,35,20];const mult=pct/100;
+  ['mMiniChart','dMiniChart'].forEach(id=>{const el=$(id);if(!el)return;Array.from(el.children).forEach((b,i)=>b.style.height=Math.max(4,Math.round(base[i]*mult*2))+'px');});
+}
+
+// ═══════════════════════════════════════
+//  LISTINGS PAGE
+// ═══════════════════════════════════════
+function buildListings(filter='all'){
+  const container=$('listingsContainer');container.innerHTML='';
+  const filtered=filter==='all'?MOCK_LISTINGS:MOCK_LISTINGS.filter(l=>l.status===filter);
+  filtered.forEach(l=>{
+    const statusMap={published:'pub',draft:'draft',paused:'paused',archived:'arch'};
+    const statusLabel={published:'Published',draft:'Draft',paused:'Paused',archived:'Archived'};
+    const card=document.createElement('div');card.className='listing-card';
+    card.innerHTML=`
+      <div class="listing-thumb">🏠</div>
+      <div class="listing-info">
+        <div class="listing-title">${l.title}</div>
+        <div class="listing-meta">📍 ${l.loc} · ${l.beds||'Studio'} bed${l.beds!==1?'s':''}</div>
+        <div class="listing-bottom">
+          <div class="listing-price">${l.price}<span style="font-size:11px;font-weight:400;color:var(--muted)">/mo</span></div>
+          <div class="listing-status ${statusMap[l.status]}">${statusLabel[l.status]}</div>
+        </div>
+      </div>`;
+    card.onclick=()=>showToast(`Opening ${l.title}…`,'');
+    container.appendChild(card);
+  });
+  if(!filtered.length)container.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:14px">No listings found</div>';
+}
+
+function filterListings(el,filter){
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');buildListings(filter);
+}
+
+// ═══════════════════════════════════════
+//  AI HELPERS
+// ═══════════════════════════════════════
+function applyAITitle(){
+  const beds=S.counters.beds,type=document.querySelector('input[name="ptype"]:checked')?.value||'Apartment',city=g('city')||'Prime Location';
+  $('listingTitle').value=`Stunning ${beds}-Bed ${type} with City Views in ${city}`;
+  updatePreview();updateScore();showToast('✦ AI title applied!','success');logAct('AI title applied');
+}
+
+function generateDesc(){
+  const type=document.querySelector('input[name="ptype"]:checked')?.value||'apartment';
+  const beds=S.counters.beds,baths=S.counters.baths,city=g('city')||'this vibrant city';
+  const ams=[...S.amenities].slice(0,3).join(', ')||'modern amenities';
+  $('description').value=`Discover your perfect retreat in this beautifully appointed ${beds}-bedroom, ${baths}-bathroom ${type.toLowerCase()} in the heart of ${city}. Bathed in natural light, this thoughtfully designed space combines comfort with contemporary style. Enjoy ${ams}, and step out to find yourself minutes from restaurants, parks, and transport links. Ideal for professionals and families seeking a premium lifestyle.`;
+  updateCharCount();updatePreview();updateScore();showToast('✦ AI description generated!','success');logAct('AI description generated');
+}
+
+// ═══════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════
+function saveDraft(){logAct('Draft saved');showToast('💾 Draft saved!','success');}
+function clearForm(){
+  if(!confirm('Clear all form data?'))return;
+  ['listingTitle','description','address','city','neighborhood','rentPrice','deposit','agencyFee','floorArea'].forEach(id=>{if($(id))$(id).value='';});
+  S.images=[];S.amenities.clear();S.primary=0;
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
+  renderImages();updatePreview();updateScore();updateCharCount();
+  showToast('🗑 Form cleared','warn');logAct('Form cleared');
+}
+function publishListing(){
+  const errs=[];
+  if(!g('listingTitle'))errs.push('Title');
+  if(!g('description'))errs.push('Description');
+  if(!g('address'))errs.push('Address');
+  if(!g('rentPrice'))errs.push('Price');
+  if(!S.images.length)errs.push('Photos');
+  if(errs.length){showToast(`⚠ Missing: ${errs.join(', ')}`, 'error');return;}
+  logAct('Listing published ✦');
+  showToast('✦ Listing published!','success');
+  setTimeout(()=>showToast('📩 3 tenants notified','success'),1600);
+}
+
+// ═══════════════════════════════════════
+//  SHEETS
+// ═══════════════════════════════════════
+function openSheet(sheetId,overlayId){
+  const ov=overlayId||sheetId.replace('Sheet','Overlay');
+  $(ov)||($('previewOverlay'));
+  const overlay=document.getElementById(ov)||$('previewOverlay');
+  overlay.classList.add('open');
+  $(sheetId).classList.add('open');
+  document.body.style.overflow='hidden';
+  updatePreview();
+}
+function closeSheet(sheetId,overlayId){
+  $(sheetId).classList.remove('open');
+  const ov=overlayId||sheetId.replace('Sheet','Overlay');
+  const overlay=document.getElementById(ov)||$('previewOverlay');
+  if(overlay)overlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ═══════════════════════════════════════
+//  KEYBOARD
+// ═══════════════════════════════════════
+function setupKeyboard(){
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&!e.shiftKey){
+      if(e.key==='s'){e.preventDefault();saveDraft();}
+      if(e.key==='p'){e.preventDefault();publishListing();}
+    }
+    if(e.key==='Escape'){
+      closeDrawer();
+      closeSheet('previewSheet','previewOverlay');
+      closeSheet('searchSheet','searchOverlay');
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+//  ACTIVITY LOG
+// ═══════════════════════════════════════
+function logAct(msg){
+  S.history.push(msg);
+  const log=$('activityLog');if(!log)return;
+  const t=new Date();const time=`${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}`;
+  const item=document.createElement('div');item.className='log-item';
+  item.innerHTML=`<div class="log-dot"></div><div>${msg}</div><div class="log-time">${time}</div>`;
+  log.prepend(item);if(log.children.length>8)log.lastChild.remove();
+}
+
+// ═══════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════
+const toastTimers={};
+function showToast(msg,type=''){
+  const id='t'+Date.now();
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;t.id=id;
+  t.innerHTML=`<span>${msg}</span><button class="toast-close" onclick="rmToast('${id}')">×</button>`;
+  $('toastWrap').appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  toastTimers[id]=setTimeout(()=>rmToast(id),3800);
+}
+function rmToast(id){const t=$(id);if(!t)return;t.classList.remove('show');setTimeout(()=>t.remove(),320);clearTimeout(toastTimers[id]);}
+
+// ═══════════════════════════════════════
+//  START
+// ═══════════════════════════════════════
+init();
+</script>
+</body>
+</html>

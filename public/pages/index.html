@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="sw" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="NAPANGA APP - Tafuta Nyumba Yako">
+  <meta name="description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta name="keywords" content="nyumba, apartment, rent, Dar es Salaam, Tanzania, house, chumba, kupanga">
+  <meta name="author" content="NAPANGA">
+  
+  <!-- PWA Primary Tags -->
+  <meta name="theme-color" content="#39eb25">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="NAPANGA">
+  
+  <!-- iOS Specific Meta Tags for PWA Installation -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NAPANGA">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-touch-fullscreen" content="yes">
+  
+  <!-- iOS Splash Screens for different iPhone models -->
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-1668x2224.png" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="../../src/icons/splash-2048x2732.png" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)">
+  
+  <!-- iOS Touch Icons (required for "Add to Home Screen") -->
+  <link rel="apple-touch-icon" href="../../src/icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../../src/icons/icon-76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../../src/icons/icon-120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../../src/icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="../../src/icons/icon-167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../src/icons/icon-180.png">
+  
+  <!-- Standard PWA Manifest -->
+  <link rel="manifest" href="../../js/manifest.json">
+  
+  <!-- Link to main CSS file -->
+  <link rel="stylesheet" href="index.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="../../src/icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../src/icons/icon-16.png">
+  <link rel="icon" type="image/svg+xml" href="../../src/icons/icon.svg">
+  <link rel="shortcut icon" href="../../src/icons/icon-32.png">
+  
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#39eb25">
+  <meta name="msapplication-TileImage" content="../../src/icons/icon-144.png">
+  <meta name="msapplication-config" content="../../public/browserconfig.xml">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napanga.app/">
+  <meta property="og:title" content="NAPANGA APP - Tafuta Nyumba Yako">
+  <meta property="og:description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta property="og:image" content="/icons/icon-512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://napanga.app/">
+  <meta property="twitter:title" content="NAPANGA APP - Tafuta Nyumba Yako">
+  <meta property="twitter:description" content="Pata nyumba kwa bei nafuu Dar es Salaam. Bila malipo ya ujumbe.">
+  <meta property="twitter:image" content="/icons/icon-512.png">
+  
+  <title>NAPANGA APP</title>
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  
+  <!-- MODERN FONT SYSTEM -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  
+  
+</head>
+<body>
+  <div id="app">
+    <!-- MODERN HEADER -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon">NA</div>
+          <span class="brand-name">PANGA</span>
+        </div>
+        <div class="header-actions">
+          <!-- Desktop Navigation (hidden on mobile) -->
+          <nav class="desktop-nav" style="display: none;">
+            <a href="#" class="desktop-nav-link active">Nyumbani</a>
+            <a href="#" class="desktop-nav-link">Favoriti</a>
+            <a href="#" class="desktop-nav-link">Tafuta</a>
+            <a href="#" class="desktop-nav-link">Ongeza</a>
+            <a href="#" class="desktop-nav-link">Akaunti</a>
+          </nav>
+          <!-- Mobile Menu Toggle (hamburger icon) -->
+          <button class="icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menyu">
+            <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="3" y1="6" x2="21" y2="6" stroke-width="2" stroke-linecap="round"/>
+              <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" stroke-linecap="round"/>
+              <line x1="3" y1="18" x2="21" y2="18" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: none;">
+              <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="dark-mode-toggle" title="Badili mwangaza">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="notification-btn" title="Arifa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION DROPDOWN -->
+    <nav class="mobile-nav-dropdown" id="mobile-nav-dropdown">
+      <div class="mobile-nav-content">
+        <a href="#" class="mobile-nav-link active">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Nyumbani</span>
+        </a>
+        <a href="vyumba.html" class="mobile-nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span>Favoriti</span>
+        </a>
+        <a href="#" class="mobile-nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 8 8 0 0 0-14.46 0A1.65 1.65 0 0 0 4.6 15"/>
+          </svg>
+          <span>Tafuta</span>
+        </a>
+        <a href="#" class="mobile-nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+          </svg>
+          <span>Ongeza</span>
+        </a>
+        <a href="house.html" class="mobile-nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M4 4h16v16H4z"/>
+            <path d="M9 9h6v6H9z"/>
+            <path d="M15 9l-6 6"/>
+          </svg>
+          <span>Akaunti</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- MODERN HERO SECTION -->
+    <section class="hero-modern">
+      <div class="hero-content">
+        <h1>Tafuta Nyumba <br>Yako Bila Stress</h1>
+        <p>Dar es Salaam • Zaidi ya nyumba 500+</p>
+      </div>
+    </section>
+
+    <!-- MODERN SEARCH BAR -->
+    <div class="search-container">
+      <div class="search-bar-modern">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" color="var(--text-muted)">
+            <circle cx="11" cy="11" r="8" stroke-width="2"/>
+            <path d="M21 21l-4.35-4.35" stroke-width="2"/>
+          </svg>
+          <input type="text" placeholder="Tafuta eneo, jina la nyumba...">
+        </div>
+        <button class="filter-btn-modern" id="filter-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white">
+            <path d="M3 4h18v2l-6 6v6l-4 2v-8L3 6V4z"/>
+          </svg>
+          Chuja
+        </button>
+      </div>
+    </div>
+
+    <!-- MODERN FILTER CHIPS -->
+    <div class="filter-chips">
+      <button class="chip active">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M20 7H4M16 12H8M12 17h0"/>
+        </svg>
+        Nyumba zote
+      </button>
+      <button class="chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 10h18M5 6h14M8 14h8M12 18h0"/>
+        </svg>
+        Karibu na mimi
+      </button>
+      <button class="chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="2"/>
+          <path d="M12 2v4M22 12h-4M12 22v-4M4 12H2M6.5 6.5l3 3M17.5 6.5l-3 3M17.5 17.5l-3-3M6.5 17.5l3-3"/>
+        </svg>
+        Karibu
+      </button>
+      <button class="chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 2v20M2 12h20"/>
+        </svg>
+        Mpya
+      </button>
+      <button class="chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M4 4v16h16V4H4z"/>
+        </svg>
+        Vipindi
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main style="padding: var(--space-xl) 0;">
+      <!-- SECTION TITLE -->
+      <div class="section-title">
+        <h2></h2>
+        <a href="#">Angalia zote</a>
+      </div>
+
+      <!-- MODERN LISTING CARDS -->
+      <div class="listing-grid">
+        <!-- CARD 1 - MODERN DESIGN -->
+        <div class="listing-card-modern animate-fade-up">
+          <div class="card-image-wrapper">
+            <img src="Assets/nyumba1.png" alt="Nyumba nzuri" class="card-image">
+            <span class="card-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.07 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Imethibitishwa
+            </span>
+            <span class="card-price-tag">
+              <span>TSh</span> 850,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Apartment ya Kisasa</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" style="cursor: pointer; flex-shrink: 0;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Mikocheni, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 3
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 2
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <path d="M8 6V4h8v2"/>
+                </svg>
+                Parking
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" title="Pakua">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="listing-card-modern animate-fade-up" style="animation-delay: 0.1s;">
+          <div class="card-image-wrapper">
+            <img src="Assets/nyumba2.png" alt="Nyumba nzuri" class="card-image">
+            <span class="card-badge" style="background: rgba(255,107,74,0.95); color: white;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/>
+              </svg>
+              SPECIAL OFFER
+            </span>
+            <span class="card-price-tag">
+              <span>TSh</span> 1,200,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Nyumba ya Kifahari</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" style="cursor: pointer; flex-shrink: 0;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Masaki, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 4
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 3
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4M12 8h.01"/>
+                </svg>
+                Pool
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" title="Pakua">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="listing-card-modern animate-fade-up" style="animation-delay: 0.2s;">
+          <div class="card-image-wrapper">
+            <img src="Assets/Nyumba3.png" alt="Nyumba nzuri" class="card-image">
+            <span class="card-badge" style="background: var(--success); color: white;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+              PRICE DROP
+            </span>
+            <span class="card-price-tag">
+              <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px; margin-right: 6px;">TSh 950,000</span>
+              <span>TSh</span> 750,000
+            </span>
+          </div>
+          <div class="card-content">
+            <div class="card-title">
+              <span>Studio ya Kisasa</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" style="cursor: pointer; flex-shrink: 0;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="card-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Ubungo, Dar es Salaam
+            </div>
+            <div class="property-features">
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Vyumba 1
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M4 12h16M8 8v8M16 8v8"/>
+                </svg>
+                Bafu 1
+              </span>
+              <span class="feature">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/>
+                </svg>
+                WiFi
+              </span>
+            </div>
+            <div class="card-footer">
+              <button class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/>
+                </svg>
+                Angalia
+              </button>
+              <button class="btn-secondary" title="Pakua">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5 5 5-5M12 4v10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW MORE BUTTON -->
+      <div class="view-more-container">
+        <button class="view-more-btn">
+          Onyesha zaidi
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M7 13l5 5 5-5M7 7l5 5 5-5"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- MODERN FILTER MODAL (Hidden by default) -->
+    <div id="filter-modal" class="filter-modal-modern">
+      <div class="filter-header">
+        <h2>Chuja</h2>
+        <button class="icon-btn" id="close-filter" title="Funga">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+      </div>
+      <div class="filter-body">
+        <div class="filter-section">
+          <div class="filter-section-title">Aina ya Mali</div>
+          <div class="filter-options-grid">
+            <button class="filter-option selected">Nyumba</button>
+            <button class="filter-option">Apartment</button>
+            <button class="filter-option">Bungalow</button>
+            <button class="filter-option">Studio</button>
+            <button class="filter-option">Chumba</button>
+            <button class="filter-option">Biashara</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Eneo</div>
+          <div class="filter-options-grid">
+            <button class="filter-option">Kinondoni</button>
+            <button class="filter-option">Ilala</button>
+            <button class="filter-option">Temeke</button>
+            <button class="filter-option">Ubungo</button>
+            <button class="filter-option">Kigamboni</button>
+            <button class="filter-option">Mikocheni</button>
+            <button class="filter-option">Masaki</button>
+            <button class="filter-option">Mbezi</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Bei (TSh)</div>
+          <div style="display: flex; gap: var(--space-md);">
+            <input type="number" placeholder="Kuanzia" style="flex: 1; padding: var(--space-md); border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-alt); font-size: var(--font-sm);">
+            <input type="number" placeholder="Mpaka" style="flex: 1; padding: var(--space-md); border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-alt); font-size: var(--font-sm);">
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Vipengele</div>
+          <div class="filter-options-grid">
+            <button class="filter-option">WiFi</button>
+            <button class="filter-option">Parking</button>
+            <button class="filter-option">Swimming Pool</button>
+            <button class="filter-option">Gym</button>
+            <button class="filter-option">Security</button>
+            <button class="filter-option">Generator</button>
+          </div>
+        </div>
+      </div>
+      <div class="filter-footer">
+        <button style="background: transparent; border: 1px solid var(--border);">Futa</button>
+        <button style="background: var(--primary); color: white; border: none;">Omba vichujio (4)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // MODERN FILTER MODAL TOGGLE
+    const filterBtn = document.getElementById('filter-btn');
+    const filterModal = document.getElementById('filter-modal');
+    const closeFilterBtn = document.getElementById('close-filter');
+
+    filterBtn.addEventListener('click', () => {
+      filterModal.classList.add('active');
+    });
+
+    closeFilterBtn.addEventListener('click', () => {
+      filterModal.classList.remove('active');
+    });
+
+    // CLOSE MODAL ON OUTSIDE CLICK
+    filterModal.addEventListener('click', (e) => {
+      if (e.target === filterModal) {
+        filterModal.classList.remove('active');
+      }
+    });
+
+    // DARK MODE TOGGLE
+    const darkModeBtn = document.getElementById('dark-mode-toggle');
+    darkModeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      // Save preference
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+    });
+
+    // LOAD DARK MODE PREFERENCE
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+
+    // FILTER CHIP INTERACTIONS
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // FILTER OPTION INTERACTIONS
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function() {
+        this.classList.toggle('selected');
+      });
+    });
+
+    // HEART ICON TOGGLE (WISHLIST)
+    document.querySelectorAll('.card-title svg').forEach(heart => {
+      heart.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const currentColor = this.getAttribute('stroke');
+        if (currentColor === '#dc2626') {
+          this.setAttribute('stroke', '#64748b');
+          this.setAttribute('fill', 'none');
+        } else {
+          this.setAttribute('stroke', '#dc2626');
+          this.setAttribute('fill', '#dc2626');
+        }
+      });
+    });
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // SHOW/HIDE DESKTOP NAV BASED ON SCREEN SIZE
+    function handleResponsiveNav() {
+      const desktopNav = document.querySelector('.desktop-nav');
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNavDropdown = document.querySelector('.mobile-nav-dropdown');
+      
+      if (window.innerWidth >= 768) {
+        if (desktopNav) desktopNav.style.display = 'flex';
+        if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
+        // Close mobile menu if open when switching to desktop
+        if (mobileNavDropdown) mobileNavDropdown.classList.remove('active');
+        if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+      } else {
+        if (desktopNav) desktopNav.style.display = 'none';
+        if (mobileMenuToggle) mobileMenuToggle.style.display = 'flex';
+      }
+    }
+
+    // MOBILE MENU TOGGLE FUNCTIONALITY
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNavDropdown = document.getElementById('mobile-nav-dropdown');
+    const hamburgerIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.hamburger-icon') : null;
+    const closeIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.close-icon') : null;
+    
+    // Create overlay element
+    const mobileNavOverlay = document.createElement('div');
+    mobileNavOverlay.className = 'mobile-nav-overlay';
+    mobileNavOverlay.id = 'mobile-nav-overlay';
+    document.body.appendChild(mobileNavOverlay);
+
+    function toggleMobileMenu() {
+      const isOpen = mobileNavDropdown.classList.contains('active');
+      
+      if (isOpen) {
+        mobileNavDropdown.classList.remove('active');
+        mobileNavOverlay.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.display = 'block';
+        if (closeIcon) closeIcon.style.display = 'none';
+        document.body.style.overflow = '';
+      } else {
+        mobileNavDropdown.classList.add('active');
+        mobileNavOverlay.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.display = 'none';
+        if (closeIcon) closeIcon.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    // Close menu when clicking overlay
+    if (mobileNavOverlay) {
+      mobileNavOverlay.addEventListener('click', () => {
+        if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+          toggleMobileMenu();
+        }
+      });
+    }
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+          toggleMobileMenu();
+        }
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+        toggleMobileMenu();
+      }
+    });
+
+    // Run on load and resize
+    handleResponsiveNav();
+    window.addEventListener('resize', handleResponsiveNav);
+
+    // ============================================
+    // PWA SERVICE WORKER REGISTRATION
+    // ============================================
+    
+    // Skip service worker registration on localhost for development
+    const isLocalhost = Boolean(
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '[::1]' ||
+      window.location.port === '5500' ||
+      window.location.port === '3000'
+    );
+    
+    if ('serviceWorker' in navigator && !isLocalhost) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('../../js/sw.js', {
+            scope: './'
+          });
+          console.log('[PWA] Service Worker registered successfully:', registration.scope);
+          
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content is available, show update notification
+                console.log('[PWA] New content available, please refresh.');
+                showUpdateNotification();
+              }
+            });
+          });
+        } catch (error) {
+          console.error('[PWA] Service Worker registration failed:', error);
+        }
+      });
+    } else if (isLocalhost) {
+      console.log('[PWA] Service Worker disabled on localhost for development');
+    }
+
+    // Show update notification to user
+    function showUpdateNotification() {
+      const updateBanner = document.createElement('div');
+      updateBanner.id = 'pwa-update-banner';
+      updateBanner.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 16px;
+        right: 16px;
+        background: linear-gradient(145deg, #39eb25, #1d4ed8);
+        color: white;
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+      `;
+      updateBanner.innerHTML = `
+        <span>🔄 Mwisho mpya unapatikana!</span>
+        <button onclick="location.reload()" style="
+          background: white;
+          color: #39eb25;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+        ">Sasa</button>
+      `;
+      document.body.appendChild(updateBanner);
+      
+      // Auto-remove after 10 seconds
+      setTimeout(() => {
+        if (document.getElementById('pwa-update-banner')) {
+          document.getElementById('pwa-update-banner').remove();
+        }
+      }, 10000);
+    }
+
+    // ============================================
+    // PWA INSTALL PROMPT (for iOS and Android)
+    // ============================================
+    
+    let deferredPrompt;
+    let installBanner;
+
+    // Listen for the beforeinstallprompt event (Android/Desktop)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('[PWA] Install prompt available');
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallPrompt();
+    });
+
+    // Show install prompt banner
+    function showInstallPrompt() {
+      // Don't show if already installed or dismissed
+      if (localStorage.getItem('pwa-install-dismissed') === 'true') {
+        return;
+      }
+
+      // Check if running as standalone PWA
+      if (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true) {
+        console.log('[PWA] Already running as standalone app');
+        return;
+      }
+
+      // Create install banner
+      installBanner = document.createElement('div');
+      installBanner.id = 'pwa-install-banner';
+      installBanner.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        z-index: 9998;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: 'Inter', sans-serif;
+        border: 1px solid #e5e7eb;
+      `;
+      
+      // Detect iOS
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      
+      if (isIOS) {
+        // iOS install instructions
+        installBanner.innerHTML = `
+          <div style="width: 48px; height: 48px; background: linear-gradient(145deg, #39eb25, #1d4ed8); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span style="color: white; font-weight: bold; font-size: 20px;">N</span>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #111827; font-size: 14px;">Sakinisha NAPANGA App</div>
+            <div style="color: #6b7280; font-size: 12px; margin-top: 2px;">
+              Bonyeza 
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: inline; vertical-align: middle;">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+              kisha "Add to Home Screen"
+            </div>
+          </div>
+          <button onclick="dismissInstallBanner()" style="background: none; border: none; padding: 8px; cursor: pointer; color: #6b7280;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18" stroke-width="2"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke-width="2"/>
+            </svg>
+          </button>
+        `;
+      } else {
+        // Android/Desktop install button
+        installBanner.innerHTML = `
+          <div style="width: 48px; height: 48px; background: linear-gradient(145deg, #39eb25, #1d4ed8); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span style="color: white; font-weight: bold; font-size: 20px;">N</span>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #111827; font-size: 14px;">Sakinisha NAPANGA App</div>
+            <div style="color: #6b7280; font-size: 12px; margin-top: 2px;">Pata upatikanaji wa haraka</div>
+          </div>
+          <button onclick="installPWA()" style="
+            background: linear-gradient(145deg, #39eb25, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+          ">Sakinisha</button>
+          <button onclick="dismissInstallBanner()" style="background: none; border: none; padding: 8px; cursor: pointer; color: #6b7280;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18" stroke-width="2"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke-width="2"/>
+            </svg>
+          </button>
+        `;
+      }
+      
+      document.body.appendChild(installBanner);
+    }
+
+    // Install PWA (Android/Desktop)
+    async function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[PWA] Install prompt outcome:', outcome);
+        deferredPrompt = null;
+        dismissInstallBanner();
+      }
+    }
+
+    // Dismiss install banner
+    function dismissInstallBanner() {
+      if (installBanner) {
+        installBanner.remove();
+      }
+      // Remember dismissal for 7 days
+      localStorage.setItem('pwa-install-dismissed', 'true');
+      setTimeout(() => {
+        localStorage.removeItem('pwa-install-dismissed');
+      }, 7 * 24 * 60 * 60 * 1000);
+    }
+
+    // Listen for successful installation
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App installed successfully');
+      dismissInstallBanner();
+      deferredPrompt = null;
+    });
+
+    // Check if app is running as standalone
+    function isRunningAsPWA() {
+      return window.matchMedia('(display-mode: standalone)').matches || 
+             window.navigator.standalone === true ||
+             document.referrer.includes('android-app://');
+    }
+
+    // Log PWA status
+    console.log('[PWA] Running as PWA:', isRunningAsPWA());
+    console.log('[PWA] Service Worker supported:', 'serviceWorker' in navigator);
+  </script>
+</body>
+</html>

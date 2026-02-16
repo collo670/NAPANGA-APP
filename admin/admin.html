@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - RentEase Africa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4361ee">
+</head>
+<body class="admin-body">
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-modal">
+            <h2>Admin Login</h2>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="admin-dashboard hidden">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>RentEase Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">📊 Dashboard</a>
+                <a href="#" class="nav-item" data-section="add-property">➕ Add Property</a>
+                <a href="#" class="nav-item" data-section="manage-listings">📋 Manage Listings</a>
+                <a href="#" class="nav-item" data-section="countries">🌍 Countries Overview</a>
+                <a href="#" class="nav-item" data-section="bookings">📅 Bookings</a>
+                <a href="#" class="nav-item" data-section="messages">💬 Messages</a>
+                <a href="#" class="nav-item logout" id="logout-btn">🚪 Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="admin-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid" id="stats-grid">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Add Property Section -->
+            <section id="add-property-section" class="admin-section">
+                <h2>Add New Property</h2>
+                <form id="property-form" class="property-form">
+                    <!-- Country Selector -->
+                    <div class="form-group">
+                        <label>Country *</label>
+                        <select id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="Kenya">Kenya (KES)</option>
+                            <option value="Tanzania">Tanzania (TZS)</option>
+                            <option value="Uganda">Uganda (UGX)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Area *</label>
+                            <input type="text" id="area" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Property Title *</label>
+                        <input type="text" id="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Property Type *</label>
+                            <select id="property-type" required>
+                                <option value="Apartment">Apartment</option>
+                                <option value="House">House</option>
+                                <option value="Studio">Studio</option>
+                                <option value="Villa">Villa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Bedrooms *</label>
+                            <input type="number" id="bedrooms" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Bathrooms *</label>
+                            <input type="number" id="bathrooms" min="1" step="0.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Size (sqm) *</label>
+                            <input type="number" id="size" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price *</label>
+                            <input type="number" id="price" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <input type="text" id="currency" readonly value="KES">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Payment Type *</label>
+                            <select id="payment-type" required>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status *</label>
+                            <select id="status" required>
+                                <option value="Available">Available</option>
+                                <option value="Rented">Rented</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Amenities -->
+                    <div class="form-group">
+                        <label>Amenities</label>
+                        <div class="amenities-grid">
+                            <label><input type="checkbox" value="WiFi"> WiFi</label>
+                            <label><input type="checkbox" value="Parking"> Parking</label>
+                            <label><input type="checkbox" value="Pool"> Pool</label>
+                            <label><input type="checkbox" value="Gym"> Gym</label>
+                            <label><input type="checkbox" value="Security"> Security</label>
+                            <label><input type="checkbox" value="Furnished"> Furnished</label>
+                            <label><input type="checkbox" value="Air Conditioning"> Air Conditioning</label>
+                            <label><input type="checkbox" value="Kitchen"> Kitchen</label>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="form-group">
+                        <label>Images *</label>
+                        <input type="file" id="images" accept="image/*" multiple required>
+                        <div id="image-preview" class="image-preview"></div>
+                    </div>
+
+                    <!-- Featured Toggle -->
+                    <div class="form-group featured-toggle">
+                        <label>
+                            <input type="checkbox" id="featured"> Mark as Featured
+                        </label>
+                    </div>
+
+                    <!-- Property ID Preview -->
+                    <div class="form-group">
+                        <label>Property ID (Auto-generated)</label>
+                        <input type="text" id="property-id" readonly placeholder="Will be generated">
+                    </div>
+
+                    <button type="submit" class="btn-primary">Add Property</button>
+                </form>
+            </section>
+
+            <!-- Manage Listings Section -->
+            <section id="manage-listings-section" class="admin-section">
+                <h2>Manage Listings</h2>
+                
+                <!-- Filters -->
+                <div class="listing-filters">
+                    <select id="listing-country-filter">
+                        <option value="">All Countries</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Uganda">Uganda</option>
+                    </select>
+                    
+                    <select id="listing-status-filter">
+                        <option value="">All Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Rented">Rented</option>
+                    </select>
+                    
+                    <input type="text" id="listing-search" placeholder="Search listings...">
+                </div>
+                
+                <!-- Listings Table -->
+                <div class="table-responsive">
+                    <table class="listings-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Country</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listings-table-body">
+                            <!-- Listings will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Countries Overview Section -->
+            <section id="countries-section" class="admin-section">
+                <h2>Countries Overview</h2>
+                <div class="countries-stats" id="countries-stats">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Bookings Section -->
+            <section id="bookings-section" class="admin-section">
+                <h2>Bookings</h2>
+                <p class="coming-soon">Booking management coming soon...</p>
+            </section>
+
+            <!-- Messages Section -->
+            <section id="messages-section" class="admin-section">
+                <h2>Messages</h2>
+                <p class="coming-soon">Messages feature coming soon...</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Property Modal -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Edit Property</h2>
+            <form id="edit-property-form" class="property-form">
+                <!-- Same fields as add property form, will be populated dynamically -->
+            </form>
+        </div>
+    </div>
+
+    <script src="db.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
