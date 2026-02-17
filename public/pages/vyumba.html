@@ -901,6 +901,85 @@
   
   <script>
     // ============================================
+    // PROPERTY DATA FROM URL PARAMETERS
+    // ============================================
+    function getPropertyDataFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        id: params.get('id') ? decodeURIComponent(params.get('id')) : null,
+        title: params.get('title') ? decodeURIComponent(params.get('title')) : null,
+        location: params.get('location') ? decodeURIComponent(params.get('location')) : null,
+        price: params.get('price') ? decodeURIComponent(params.get('price')) : null,
+        beds: params.get('beds') ? decodeURIComponent(params.get('beds')) : null,
+        baths: params.get('baths') ? decodeURIComponent(params.get('baths')) : null,
+        sqm: params.get('sqm') ? decodeURIComponent(params.get('sqm')) : null,
+        image: params.get('image') ? decodeURIComponent(params.get('image')) : null,
+        type: params.get('type') ? decodeURIComponent(params.get('type')) : null
+      };
+    }
+    
+    // Update page content with property data
+    function updatePageWithPropertyData() {
+      const data = getPropertyDataFromURL();
+      
+      // If no URL parameters, use default content
+      if (!data.id) return;
+      
+      // Update page title
+      if (data.title) {
+        document.title = data.title + ' - NAPANGA';
+        const h1 = document.querySelector('.property-header h1');
+        if (h1) h1.textContent = data.title;
+      }
+      
+      // Update gallery images - use the clicked image as the main image
+      if (data.image) {
+        const galleryImgs = document.querySelectorAll('.gallery-img');
+        galleryImgs.forEach((img, index) => {
+          if (index === 0) {
+            img.src = data.image;
+            img.alt = data.title || 'Property image';
+          }
+        });
+      }
+      
+      // Update price display
+      if (data.price) {
+        const priceDisplay = document.querySelector('.price-display');
+        if (priceDisplay) {
+          priceDisplay.innerHTML = data.price + ' <span style="font-size: 16px; font-weight: 400;">/ mwezi</span>';
+        }
+      }
+      
+      // Update location
+      if (data.location) {
+        const locationSpan = document.querySelector('.location-display span');
+        if (locationSpan) locationSpan.textContent = data.location;
+      }
+      
+      // Update property stats (beds, baths, type)
+      const statItems = document.querySelectorAll('.stat-item span');
+      if (data.beds && statItems[0]) {
+        statItems[0].textContent = data.beds + ' Vyumba';
+      }
+      if (data.baths && statItems[1]) {
+        statItems[1].textContent = data.baths + ' Bafu';
+      }
+      if (data.type && statItems[2]) {
+        statItems[2].textContent = data.type;
+      }
+      
+      // Update share variables
+      if (data.title) {
+        window.shareTitle = data.title + ' - NAPANGA';
+        window.shareText = 'Angalia nyumba hii: ' + data.title + ' - ' + (data.price || '') + ' kwa mwezi. ' + (data.location || '');
+      }
+    }
+    
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', updatePageWithPropertyData);
+    
+    // ============================================
     // GALLERY FUNCTIONALITY
     // ============================================
     let currentSlide = 0;
@@ -989,8 +1068,8 @@
     // SHARE FUNCTIONALITY
     // ============================================
     const shareUrl = window.location.href;
-    const shareTitle = 'Nyumba ya Kukodisha - Mikocheni, Dar es Salaam';
-    const shareText = 'Angalia nyumba hii nzuri ya kukodisha Mikocheni, Dar es Salaam. TSh 1,200,000 kwa mwezi.';
+    let shareTitle = 'Nyumba ya Kukodisha - Mikocheni, Dar es Salaam';
+    let shareText = 'Angalia nyumba hii nzuri ya kukodisha Mikocheni, Dar es Salaam. TSh 1,200,000 kwa mwezi.';
     
     function openShareModal() {
       const modal = document.getElementById('shareModal');
@@ -1026,13 +1105,16 @@
     
     function shareViaWhatsApp(e) {
       e.preventDefault();
-      const url = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+      const title = window.shareTitle || shareTitle;
+      const text = window.shareText || shareText;
+      const url = `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     
     function shareViaTelegram(e) {
       e.preventDefault();
-      const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+      const text = window.shareText || shareText;
+      const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     
@@ -1044,14 +1126,17 @@
     
     function shareViaTwitter(e) {
       e.preventDefault();
-      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      const text = window.shareText || shareText;
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(url, '_blank', 'noopener,noreferrer,width=600,height=400');
     }
     
     function shareViaEmail(e) {
       e.preventDefault();
-      const subject = encodeURIComponent(shareTitle);
-      const body = encodeURIComponent(shareText + '\n\n' + shareUrl);
+      const title = window.shareTitle || shareTitle;
+      const text = window.shareText || shareText;
+      const subject = encodeURIComponent(title);
+      const body = encodeURIComponent(text + '\n\n' + shareUrl);
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
     
@@ -1110,9 +1195,11 @@
         if (useNativeShare) {
           e.stopPropagation();
           try {
+            const title = window.shareTitle || shareTitle;
+            const text = window.shareText || shareText;
             await navigator.share({
-              title: shareTitle,
-              text: shareText,
+              title: title,
+              text: text,
               url: shareUrl
             });
             showToast('Imeshirikiwa!');
