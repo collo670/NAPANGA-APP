@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAPANGA Africa - House Rental Platform</title>
+    <link rel="stylesheet" href="admin/styles.css">
+    <link rel="manifest" href="admin/manifest.json">
+    
+    <!-- iOS Touch Icons (required for "Add to Home Screen") -->
+    <link rel="apple-touch-icon" href="src/icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="src/icons/icon-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="src/icons/icon-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="src/icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="src/icons/icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="src/icons/icon-180.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="src/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="src/icons/icon-16.png">
+    <link rel="icon" type="image/svg+xml" href="src/icons/icon.svg">
+    <link rel="shortcut icon" href="src/icons/icon-32.png">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#39eb25">
+    <meta name="msapplication-TileImage" content="src/icons/icon-144.png">
+    <meta name="msapplication-config" content="public/browserconfig.xml">
+    
+    <meta name="theme-color" content="#39eb25">
+    <meta name="description" content="Find your perfect home in Kenya, Tanzania, and Uganda">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+
+            <div class="brand">
+                <div class="brand-icon">NA</div>
+                <span class="brand-name">PANGA</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="#" id="favorites-link">Favorites</a>
+                <a href="admin/admin.html" class="admin-link">Admin</a>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menu">
+                    <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="3" y1="6" x2="21" y2="6" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="18" x2="21" y2="18" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: none;">
+                        <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MOBILE NAVIGATION DROPDOWN -->
+    <nav class="mobile-nav-dropdown" id="mobile-nav-dropdown">
+        <div class="mobile-nav-content">
+            <a href="index.html" class="mobile-nav-link active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="public/pages/house.html" class="mobile-nav-link" id="favorites-link-mobile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>Favorites</span>
+            </a>
+            <a href="admin/admin.html" class="mobile-nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/>
+                </svg>
+                <span>Admin</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Home in East Africa</h1>
+            <p>Discover thousands of rental properties in Kenya, Tanzania, and Uganda</p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search by city or area...">
+                    <button id="search-btn">Search</button>
+                </div>
+                
+                <!-- Filters -->
+                <div class="filters-bar">
+                    <select id="country-filter" class="filter-select">
+                        <option value="">All Countries</option>
+                        <option value="Kenya">Kenya (KES)</option>
+                        <option value="Tanzania">Tanzania (TZS)</option>
+                        <option value="Uganda">Uganda (UGX)</option>
+                    </select>
+                    
+                    <select id="property-type-filter" class="filter-select">
+                        <option value="">Property Type</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="House">House</option>
+                        <option value="Studio">Studio</option>
+                        <option value="Villa">Villa</option>
+                    </select>
+                    
+                    <select id="bedrooms-filter" class="filter-select">
+                        <option value="">Bedrooms</option>
+                        <option value="1">1 Bedroom</option>
+                        <option value="2">2 Bedrooms</option>
+                        <option value="3">3 Bedrooms</option>
+                        <option value="4">4+ Bedrooms</option>
+                    </select>
+                    
+                    <button class="filter-toggle" id="more-filters-btn">More Filters ▼</button>
+                </div>
+                
+                <!-- Advanced Filters (Hidden by default) -->
+                <div class="advanced-filters hidden" id="advanced-filters">
+                    <div class="filter-section">
+                        <h4>Aina ya Mali</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option selected">Nyumba</button>
+                            <button class="filter-option">Apartment</button>
+                            <button class="filter-option">Bungalow</button>
+                            <button class="filter-option">Studio</button>
+                            <button class="filter-option">Chumba</button>
+                            <button class="filter-option">Biashara</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Eneo</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option">Kinondoni</button>
+                            <button class="filter-option">Ilala</button>
+                            <button class="filter-option">Temeke</button>
+                            <button class="filter-option">Ubungo</button>
+                            <button class="filter-option">Kigamboni</button>
+                            <button class="filter-option">Mikocheni</button>
+                            <button class="filter-option">Masaki</button>
+                            <button class="filter-option">Mbezi</button>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range">
+                        <h4>Bei (TSh)</h4>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Kuanzia">
+                            <input type="number" id="max-price" placeholder="Mpaka">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Vipengele</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option">WiFi</button>
+                            <button class="filter-option">Parking</button>
+                            <button class="filter-option">Swimming Pool</button>
+                            <button class="filter-option">Gym</button>
+                            <button class="filter-option">Security</button>
+                            <button class="filter-option">Generator</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="clear-filters" class="btn-secondary">Futa</button>
+                        <button id="apply-filters" class="btn-primary">Omba vichujio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Listings -->
+    <main class="main-content">
+        <div class="listings-header">
+            <h2>Available Properties</h2>
+            <span id="results-count">0 properties</span>
+        </div>
+        
+        <div class="property-grid" id="property-grid">
+            <!-- Properties will be loaded here dynamically -->
+        </div>
+        
+        <div id="loading-spinner" class="spinner hidden"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 RentEase Africa. All rights reserved.</p>
+    </footer>
+
+    <script src="admin/db.js"></script>
+    <script src="admin/app.js"></script>
+    <script>
+        // MOBILE MENU TOGGLE FUNCTIONALITY
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileNavDropdown = document.getElementById('mobile-nav-dropdown');
+        const hamburgerIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.hamburger-icon') : null;
+        const closeIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.close-icon') : null;
+        
+        // Create overlay element
+        const mobileNavOverlay = document.createElement('div');
+        mobileNavOverlay.className = 'mobile-nav-overlay';
+        mobileNavOverlay.id = 'mobile-nav-overlay';
+        document.body.appendChild(mobileNavOverlay);
+
+        function toggleMobileMenu() {
+            const isOpen = mobileNavDropdown.classList.contains('active');
+            
+            if (isOpen) {
+                mobileNavDropdown.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                if (hamburgerIcon) hamburgerIcon.style.display = 'block';
+                if (closeIcon) closeIcon.style.display = 'none';
+                document.body.style.overflow = '';
+            } else {
+                mobileNavDropdown.classList.add('active');
+                mobileNavOverlay.classList.add('active');
+                if (hamburgerIcon) hamburgerIcon.style.display = 'none';
+                if (closeIcon) closeIcon.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Close menu when clicking overlay
+        if (mobileNavOverlay) {
+            mobileNavOverlay.addEventListener('click', () => {
+                if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
+
+        // SHOW/HIDE DESKTOP NAV BASED ON SCREEN SIZE
+        function handleResponsiveNav() {
+            const desktopNav = document.querySelector('.nav-links');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileNavDropdown = document.querySelector('.mobile-nav-dropdown');
+            
+            if (window.innerWidth >= 768) {
+                if (desktopNav) desktopNav.style.display = 'flex';
+                if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
+                // Close mobile menu if open when switching to desktop
+                if (mobileNavDropdown) mobileNavDropdown.classList.remove('active');
+                if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+            } else {
+                if (desktopNav) desktopNav.style.display = 'none';
+                if (mobileMenuToggle) mobileMenuToggle.style.display = 'flex';
+            }
+        }
+
+        // Run on load and resize
+        handleResponsiveNav();
+        window.addEventListener('resize', handleResponsiveNav);
+
+        // FILTER OPTION INTERACTIONS (toggle selected state)
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // CLEAR FILTERS
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                document.getElementById('min-price').value = '';
+                document.getElementById('max-price').value = '';
+            });
+        }
+    </script>
+</body>
+</html>

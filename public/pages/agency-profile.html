@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#ffffff"/>
+<title>Agency Profile — NAPANGA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="house.css">
+<style>
+  /* Profile Specific Styles */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-lg);
+  }
+  .profile-avatar-wrap {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
+  .profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--r);
+    background: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--accent);
+    border: 2px solid var(--white);
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+  }
+  .avatar-edit {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 32px;
+    height: 32px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+    font-size: 16px;
+  }
+  .profile-info h1 {
+    font-family: var(--font-d);
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .v-badge {
+    font-size: 16px;
+    color: var(--blue);
+  }
+  .profile-meta {
+    font-size: var(--text-md);
+    color: var(--muted);
+    display: flex;
+    gap: var(--space-md);
+  }
+  .listing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-md);
+  }
+  .listing-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  .listing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .listing-img {
+    height: 160px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+  .listing-body {
+    padding: var(--space-md);
+  }
+  .listing-price {
+    font-family: var(--font-d);
+    font-size: var(--text-xl);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .listing-title {
+    font-weight: 600;
+    margin: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .listing-loc {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .tabs {
+    display: flex;
+    gap: var(--space-xl);
+    border-bottom: 1px solid var(--border);
+    padding: 0 var(--space-lg);
+    background: var(--white);
+    position: sticky;
+    top: 56px;
+    z-index: 90;
+  }
+  .tab {
+    padding: var(--space-md) 0;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    .profile-meta {
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ DESKTOP SIDEBAR ═══ -->
+<nav class="desktop-sidenav" id="deskNav" style="display:none">
+  <div class="ds-logo">
+    <div class="ds-logo-mark"><span class="dot"></span>Admin</div>
+    <div class="ds-sub">Property Manager Pro</div>
+  </div>
+  <div class="ds-menu">
+    <div class="ds-section">Management</div>
+    <button class="ds-item" onclick="location.href='house.html'">
+      <span class="ds-ico">🏘</span> All Listings
+    </button>
+    <button class="ds-item" onclick="location.href='house.html'">
+      <span class="ds-ico">✦</span> Add Listing
+    </button>
+    <div class="ds-section" style="margin-top:10px">Settings</div>
+    <button class="ds-item active">
+      <span class="ds-ico">💼</span> Agency Profile
+    </button>
+    <button class="ds-item" onclick="showToast('Preferences — coming soon','')">
+      <span class="ds-ico">⚙️</span> Preferences
+    </button>
+  </div>
+  <div class="ds-bottom">
+    <div class="ds-user">
+      <div class="ds-avatar">JA</div>
+      <div><div class="ds-uname">James Adeyemi</div><div class="ds-role">Property Admin</div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN AREA ═══ -->
+<div class="main-desktop" id="mainDesktop" style="flex:1;display:flex;flex-direction:column;min-width:0">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
+      <button class="ham-btn" id="hamBtn" onclick="toggleDrawer()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-logo"><span class="dot"></span>Admin</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" onclick="showToast('Searching...','')">🔍</div>
+      <div class="icon-btn" onclick="showToast('Notifications','')">🔔<span class="notif-dot"></span></div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+    
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">🏢</div>
+        <div class="avatar-edit" onclick="showToast('Upload Logo coming soon','')">✎</div>
+      </div>
+      <div class="profile-info">
+        <h1>NAPANGA AGENT PROFILE <span class="v-badge" title="Verified Agency">✓</span></h1>
+        <div class="profile-meta">
+          <span>📍 Dar es Salaam, TZ</span>
+          <span></span>
+          <span>⭐ 4.9 (128 reviews)</span>
+        </div>
+      </div>
+      <div style="margin-left:auto">
+        <button class="btn btn-primary" onclick="showToast('Profile updated!','success')">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this, 'details')">Profile Details</div>
+      <div class="tab" onclick="switchTab(this, 'listings')">Active Listings (12)</div>
+      <div class="tab" onclick="switchTab(this, 'team')">Our Team</div>
+    </div>
+
+    <!-- Content Sections -->
+    <div id="tab-details" class="page-section active" style="padding: var(--space-lg)">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">General Information</div></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="lbl">Agency Name</label>
+              <input class="field" value="NAPANGA Real Estate" />
+            </div>
+            <div class="form-group">
+              <label class="lbl">Tagline</label>
+              <input class="field" value="Finding your home in the heart of Dar" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 12px">
+            <label class="lbl">About the Agency</label>
+            <textarea class="field" style="min-height: 120px">NAPANGA is a premier real estate agency specializing in luxury rentals and residential properties across Dar es Salaam. Our mission is to provide seamless property discovery through technology and personalized service.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Contact Details</div></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="lbl">Phone Number</label>
+              <input class="field" value="+255 712 345 678" />
+            </div>
+            <div class="form-group">
+              <label class="lbl">Email Address</label>
+              <input class="field" value="contact@napanga.com" />
+            </div>
+          </div>
+          <div class="form-row" style="margin-top: 12px">
+            <div class="form-group">
+              <label class="lbl">Website</label>
+              <input class="field" value="www.napanga.com" />
+            </div>
+            <div class="form-group">
+              <label class="lbl">Office Address</label>
+              <input class="field" value="Plot 45, Mikocheni B, Dar es Salaam" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-listings" class="page-section" style="display:none; padding: var(--space-lg)">
+      <div class="section-hdr">
+        <div><h2>Active Listings</h2><p>Properties currently listed by your agency</p></div>
+        <button class="btn btn-ghost" onclick="location.href='house.html'">+ Add New</button>
+      </div>
+      <div class="listing-grid">
+        <!-- Mock Listings -->
+        <div class="listing-card">
+          <div class="listing-img">🏠</div>
+          <div class="listing-body">
+            <div class="listing-price">TSh 1,200,000</div>
+            <div class="listing-title">Modern 3-Bed Apartment</div>
+            <div class="listing-loc">Mikocheni, Dar es Salaam</div>
+          </div>
+        </div>
+        <div class="listing-card">
+          <div class="listing-img">🏡</div>
+          <div class="listing-body">
+            <div class="listing-price">TSh 2,500,000</div>
+            <div class="listing-title">Spacious Family Villa</div>
+            <div class="listing-loc">Masaki, Dar es Salaam</div>
+          </div>
+        </div>
+        <div class="listing-card">
+          <div class="listing-img">🏢</div>
+          <div class="listing-body">
+            <div class="listing-price">TSh 850,000</div>
+            <div class="listing-title">Cozy Studio Apartment</div>
+            <div class="listing-loc">Upanga, Dar es Salaam</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-team" class="page-section" style="display:none; padding: var(--space-lg)">
+      <div class="section-hdr">
+        <div><h2>Our Team</h2><p>Manage your agency's agents and staff</p></div>
+        <button class="btn btn-ghost" onclick="showToast('Add Team Member coming soon','')">+ Invite Member</button>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding: 0">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--border)">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700">JA</div>
+            <div style="flex: 1">
+              <div style="font-weight: 600">James Adeyemi</div>
+              <div style="font-size: 12px; color: var(--muted)">Primary Admin</div>
+            </div>
+            <div class="stat-change up">Active</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 16px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700">SM</div>
+            <div style="flex: 1">
+              <div style="font-weight: 600">Sarah Mbeki</div>
+              <div style="font-size: 12px; color: var(--muted)">Sales Agent</div>
+            </div>
+            <div class="stat-change up">Active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+
+<!-- Drawer (Mobile) -->
+<div class="drawer" id="mobileDrawer">
+  <div class="drawer-top">
+    <div class="drawer-logo"><span class="dot"></span>Admin</div>
+    <button class="drawer-close" onclick="toggleDrawer()">×</button>
+  </div>
+  <div class="drawer-user">
+    <div class="drawer-avatar">JA</div>
+    <div><div class="drawer-uname">James Adeyemi</div><div class="drawer-role">Property Admin</div></div>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-section">Management</div>
+    <button class="drawer-item" onclick="location.href='house.html'">
+      <span class="di-ico">🏘</span> <span class="di-label">All Listings</span>
+    </button>
+    <button class="drawer-item" onclick="location.href='house.html'">
+      <span class="di-ico">✦</span> <span class="di-label">Add Listing</span>
+    </button>
+    <div class="drawer-section">Settings</div>
+    <button class="drawer-item active">
+      <span class="di-ico">💼</span> <span class="di-label">Agency Profile</span>
+    </button>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastWrap" style="position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px"></div>
+
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  function toggleDrawer() {
+    $('mobileDrawer').classList.toggle('open');
+    $('drawerOverlay').classList.toggle('open');
+    $('hamBtn').classList.toggle('open');
+  }
+
+  function showToast(msg, type='') {
+    const id = 't' + Date.now();
+    const t = document.createElement('div');
+    t.className = `toast ${type} show`;
+    t.id = id;
+    t.innerHTML = `<span>${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">×</button>`;
+    $('toastWrap').appendChild(t);
+    setTimeout(() => { if($(id)) $(id).remove(); }, 3800);
+  }
+
+  function switchTab(el, tabName) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    
+    document.querySelectorAll('.page-section').forEach(s => s.style.display = 'none');
+    $('tab-' + tabName).style.display = 'block';
+  }
+
+  // Handle Desktop Sidebar visibility
+  function checkWidth() {
+    if(window.innerWidth > 1024) {
+      $('deskNav').style.display = 'flex';
+      $('hamBtn').style.display = 'none';
+    } else {
+      $('deskNav').style.display = 'none';
+      $('hamBtn').style.display = 'flex';
+    }
+  }
+  window.addEventListener('resize', checkWidth);
+  checkWidth();
+</script>
+</body>
+</html>

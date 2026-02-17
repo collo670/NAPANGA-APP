@@ -10,8 +10,16 @@ let propertyImages = [];
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('App initialized');
     
-    // Load properties
-    await loadProperties();
+    // Check if we're on property details page
+    if (window.location.pathname.includes('property.html')) {
+        loadPropertyDetails();
+    } else {
+        // Only load properties dynamically if grid is empty (no static content)
+        const grid = document.getElementById('property-grid');
+        if (grid && grid.children.length === 0) {
+            await loadProperties();
+        }
+    }
     
     // Setup event listeners
     setupEventListeners();
@@ -20,11 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateOnlineStatus();
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
-    
-    // Check if we're on property details page
-    if (window.location.pathname.includes('property.html')) {
-        loadPropertyDetails();
-    }
 });
 
 // Setup all event listeners
@@ -63,6 +66,27 @@ function setupEventListeners() {
     const moreFiltersBtn = document.getElementById('more-filters-btn');
     if (moreFiltersBtn) {
         moreFiltersBtn.addEventListener('click', toggleAdvancedFilters);
+    }
+    
+    // Filter option buttons (toggle selected state)
+    document.querySelectorAll('.filter-option').forEach(option => {
+        option.addEventListener('click', function() {
+            this.classList.toggle('selected');
+        });
+    });
+    
+    // Clear filters button
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            const minPrice = document.getElementById('min-price');
+            const maxPrice = document.getElementById('max-price');
+            if (minPrice) minPrice.value = '';
+            if (maxPrice) maxPrice.value = '';
+        });
     }
     
     // Apply filters button
@@ -224,20 +248,45 @@ async function handleFilterChange() {
 // Toggle advanced filters
 function toggleAdvancedFilters() {
     const advancedFilters = document.getElementById('advanced-filters');
-    advancedFilters.classList.toggle('hidden');
+    const moreFiltersBtn = document.getElementById('more-filters-btn');
+    
+    if (advancedFilters) {
+        advancedFilters.classList.toggle('hidden');
+        
+        // Update button text
+        if (moreFiltersBtn) {
+            const isOpen = !advancedFilters.classList.contains('hidden');
+            moreFiltersBtn.textContent = isOpen ? 'Funga ▲' : 'More Filters ▼';
+        }
+    }
 }
 
 // Handle advanced filters
 async function handleAdvancedFilters() {
-    const amenities = [];
-    document.querySelectorAll('.amenities-filters input:checked').forEach(cb => {
-        amenities.push(cb.value);
+    // Get selected property types (Aina ya Mali)
+    const propertyTypes = [];
+    document.querySelectorAll('.filter-section:nth-child(1) .filter-option.selected').forEach(btn => {
+        propertyTypes.push(btn.textContent.trim());
+    });
+    
+    // Get selected locations (Eneo)
+    const locations = [];
+    document.querySelectorAll('.filter-section:nth-child(2) .filter-option.selected').forEach(btn => {
+        locations.push(btn.textContent.trim());
+    });
+    
+    // Get selected features (Vipengele)
+    const features = [];
+    document.querySelectorAll('.filter-section:nth-child(4) .filter-option.selected').forEach(btn => {
+        features.push(btn.textContent.trim());
     });
     
     const filters = {
-        minPrice: document.getElementById('min-price').value,
-        maxPrice: document.getElementById('max-price').value,
-        amenities: amenities
+        minPrice: document.getElementById('min-price')?.value || '',
+        maxPrice: document.getElementById('max-price')?.value || '',
+        propertyTypes: propertyTypes,
+        locations: locations,
+        features: features
     };
     
     await loadProperties(filters);

@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentEase Africa - House Rental Platform</title>
+    <title>NAPANGA Africa - House Rental Platform</title>
     <link rel="stylesheet" href="admin/styles.css">
     <link rel="manifest" href="admin/manifest.json">
-    <link rel="apple-touch-icon" href="admin/icons/icon-192.png">
-    <meta name="theme-color" content="#4361ee">
+    
+    <!-- iOS Touch Icons (required for "Add to Home Screen") -->
+    <link rel="apple-touch-icon" href="src/icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="src/icons/icon-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="src/icons/icon-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="src/icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="src/icons/icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="src/icons/icon-180.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="src/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="src/icons/icon-16.png">
+    <link rel="icon" type="image/svg+xml" href="src/icons/icon.svg">
+    <link rel="shortcut icon" href="src/icons/icon-32.png">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#39eb25">
+    <meta name="msapplication-TileImage" content="src/icons/icon-144.png">
+    <meta name="msapplication-config" content="public/browserconfig.xml">
+    
+    <meta name="theme-color" content="#39eb25">
     <meta name="description" content="Find your perfect home in Kenya, Tanzania, and Uganda">
 </head>
 <body>
@@ -109,27 +128,56 @@
                 
                 <!-- Advanced Filters (Hidden by default) -->
                 <div class="advanced-filters hidden" id="advanced-filters">
+                    <div class="filter-section">
+                        <h4>Aina ya Mali</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option selected">Nyumba</button>
+                            <button class="filter-option">Apartment</button>
+                            <button class="filter-option">Bungalow</button>
+                            <button class="filter-option">Studio</button>
+                            <button class="filter-option">Chumba</button>
+                            <button class="filter-option">Biashara</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Eneo</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option">Kinondoni</button>
+                            <button class="filter-option">Ilala</button>
+                            <button class="filter-option">Temeke</button>
+                            <button class="filter-option">Ubungo</button>
+                            <button class="filter-option">Kigamboni</button>
+                            <button class="filter-option">Mikocheni</button>
+                            <button class="filter-option">Masaki</button>
+                            <button class="filter-option">Mbezi</button>
+                        </div>
+                    </div>
+                    
                     <div class="price-range">
-                        <h4>Price Range</h4>
+                        <h4>Bei (TSh)</h4>
                         <div class="range-inputs">
-                            <input type="number" id="min-price" placeholder="Min">
-                            <input type="number" id="max-price" placeholder="Max">
+                            <input type="number" id="min-price" placeholder="Kuanzia">
+                            <input type="number" id="max-price" placeholder="Mpaka">
                         </div>
                     </div>
                     
-                    <div class="amenities-filters">
-                        <h4>Amenities</h4>
-                        <div class="amenities-grid">
-                            <label><input type="checkbox" value="WiFi"> WiFi</label>
-                            <label><input type="checkbox" value="Parking"> Parking</label>
-                            <label><input type="checkbox" value="Pool"> Pool</label>
-                            <label><input type="checkbox" value="Gym"> Gym</label>
-                            <label><input type="checkbox" value="Security"> Security</label>
-                            <label><input type="checkbox" value="Furnished"> Furnished</label>
+                    <div class="filter-section">
+                        <h4>Vipengele</h4>
+                        <div class="filter-options-grid">
+                            <button class="filter-option">WiFi</button>
+                            <button class="filter-option">Parking</button>
+                            <button class="filter-option">Swimming Pool</button>
+                            <button class="filter-option">Gym</button>
+                            <button class="filter-option">Security</button>
+                            <button class="filter-option">Generator</button>
                         </div>
                     </div>
                     
-                    <button id="apply-filters" class="btn-primary">Apply Filters</button>
+                    <div class="filter-actions">
+                        <button id="clear-filters" class="btn-secondary">Futa</button>
+                        <button id="apply-filters" class="btn-primary">Omba vichujio</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,11 +187,413 @@
     <main class="main-content">
         <div class="listings-header">
             <h2>Available Properties</h2>
-            <span id="results-count">0 properties</span>
+            <span id="results-count">18 properties</span>
         </div>
         
         <div class="property-grid" id="property-grid">
-            <!-- Properties will be loaded here dynamically -->
+            <!-- Property 1: Nairobi Apartment -->
+            <div class="property-card" data-id="KE-2026-001">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500" alt="Modern 2BR Apartment with City View" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Modern 2BR Apartment with City View</h3>
+                    <span class="location">📍 Nairobi, Westlands, Kenya</span>
+                    <div class="price">
+                        KES 85,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>2 beds</span>
+                        <span>2 baths</span>
+                        <span>85 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 2: Dar es Salaam Villa -->
+            <div class="property-card" data-id="TZ-2026-001">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500" alt="Luxury Villa with Ocean View" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Luxury Villa with Ocean View</h3>
+                    <span class="location">📍 Dar es Salaam, Masaki, Tanzania</span>
+                    <div class="price">
+                        TZS 3,500,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>4 beds</span>
+                        <span>3 baths</span>
+                        <span>250 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 3: Kampala House -->
+            <div class="property-card" data-id="UG-2026-001">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=500" alt="Spacious Family Home" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Spacious Family Home</h3>
+                    <span class="location">📍 Kampala, Kololo, Uganda</span>
+                    <div class="price">
+                        UGX 2,500,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>180 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 4: Mombasa Beachfront -->
+            <div class="property-card" data-id="KE-2026-002">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500" alt="Beachfront Apartment" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Beachfront Apartment</h3>
+                    <span class="location">📍 Mombasa, Nyali, Kenya</span>
+                    <div class="price">
+                        KES 120,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>120 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 5: Mikocheni Townhouse -->
+            <div class="property-card" data-id="TZ-2026-002">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500" alt="Executive Townhouse" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Executive Townhouse</h3>
+                    <span class="location">📍 Dar es Salaam, Mikocheni, Tanzania</span>
+                    <div class="price">
+                        TZS 1,800,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>150 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 6: Bugolobi Studio -->
+            <div class="property-card" data-id="UG-2026-002">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500" alt="Modern Studio Apartment" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Modern Studio Apartment</h3>
+                    <span class="location">📍 Kampala, Bugolobi, Uganda</span>
+                    <div class="price">
+                        UGX 800,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>1 beds</span>
+                        <span>1 baths</span>
+                        <span>45 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 7: Kilimani Penthouse -->
+            <div class="property-card" data-id="KE-2026-003">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500" alt="Penthouse with Rooftop Terrace" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Penthouse with Rooftop Terrace</h3>
+                    <span class="location">📍 Nairobi, Kilimani, Kenya</span>
+                    <div class="price">
+                        KES 250,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>4 beds</span>
+                        <span>3 baths</span>
+                        <span>200 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 8: Kinondoni Bungalow -->
+            <div class="property-card" data-id="TZ-2026-003">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500" alt="Cozy 2BR Bungalow" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Cozy 2BR Bungalow</h3>
+                    <span class="location">📍 Dar es Salaam, Kinondoni, Tanzania</span>
+                    <div class="price">
+                        TZS 950,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>2 beds</span>
+                        <span>1 baths</span>
+                        <span>90 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 9: Muyenga Villa -->
+            <div class="property-card" data-id="UG-2026-003">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=500" alt="Hillside Villa with Garden" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Hillside Villa with Garden</h3>
+                    <span class="location">📍 Kampala, Muyenga, Uganda</span>
+                    <div class="price">
+                        UGX 4,500,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>5 beds</span>
+                        <span>4 baths</span>
+                        <span>300 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 10: Karen Executive Home -->
+            <div class="property-card" data-id="KE-2026-004">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=500" alt="Executive Home in Karen" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Executive Home in Karen</h3>
+                    <span class="location">📍 Nairobi, Karen, Kenya</span>
+                    <div class="price">
+                        KES 350,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>5 beds</span>
+                        <span>4 baths</span>
+                        <span>400 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 11: Oysterbay Apartment -->
+            <div class="property-card" data-id="TZ-2026-004">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=500" alt="Luxury Apartment in Oysterbay" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Luxury Apartment in Oysterbay</h3>
+                    <span class="location">📍 Dar es Salaam, Oysterbay, Tanzania</span>
+                    <div class="price">
+                        TZS 2,200,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>140 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 12: Naalya Townhouse -->
+            <div class="property-card" data-id="UG-2026-004">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=500" alt="Modern Townhouse in Naalya" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Modern Townhouse in Naalya</h3>
+                    <span class="location">📍 Kampala, Naalya, Uganda</span>
+                    <div class="price">
+                        UGX 1,500,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>130 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 13: Lavington Studio -->
+            <div class="property-card" data-id="KE-2026-005">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=500" alt="Cozy Studio in Lavington" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Cozy Studio in Lavington</h3>
+                    <span class="location">📍 Nairobi, Lavington, Kenya</span>
+                    <div class="price">
+                        KES 45,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>1 beds</span>
+                        <span>1 baths</span>
+                        <span>35 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 14: Sinza Apartment -->
+            <div class="property-card" data-id="TZ-2026-005">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=500" alt="Affordable Apartment in Sinza" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Affordable Apartment in Sinza</h3>
+                    <span class="location">📍 Dar es Salaam, Sinza, Tanzania</span>
+                    <div class="price">
+                        TZS 600,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>2 beds</span>
+                        <span>1 baths</span>
+                        <span>70 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 15: Najjera Villa -->
+            <div class="property-card" data-id="UG-2026-005">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=500" alt="Family Villa in Najjera" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Family Villa in Najjera</h3>
+                    <span class="location">📍 Kampala, Najjera, Uganda</span>
+                    <div class="price">
+                        UGX 3,200,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>4 beds</span>
+                        <span>3 baths</span>
+                        <span>220 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 16: Diani Beach House -->
+            <div class="property-card" data-id="KE-2026-006">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=500" alt="Beach House in Diani" loading="lazy">
+                    <span class="featured-badge">Featured</span>
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Beach House in Diani</h3>
+                    <span class="location">📍 Diani Beach, Kwale, Kenya</span>
+                    <div class="price">
+                        KES 180,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>4 beds</span>
+                        <span>3 baths</span>
+                        <span>280 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 17: Kariakoo Studio -->
+            <div class="property-card" data-id="TZ-2026-006">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=500" alt="Budget Studio in Kariakoo" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Budget Studio in Kariakoo</h3>
+                    <span class="location">📍 Dar es Salaam, Kariakoo, Tanzania</span>
+                    <div class="price">
+                        TZS 350,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>1 beds</span>
+                        <span>1 baths</span>
+                        <span>30 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Property 18: Lubowa Executive -->
+            <div class="property-card" data-id="UG-2026-006">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=500" alt="Executive Suite in Lubowa" loading="lazy">
+                    <span class="availability-badge available">Available</span>
+                </div>
+                <div class="card-content">
+                    <h3>Executive Suite in Lubowa</h3>
+                    <span class="location">📍 Kampala, Lubowa, Uganda</span>
+                    <div class="price">
+                        UGX 2,800,000
+                        <small>/monthly</small>
+                    </div>
+                    <div class="card-amenities">
+                        <span>3 beds</span>
+                        <span>2 baths</span>
+                        <span>160 sqm</span>
+                    </div>
+                    <button class="favorite-btn" onclick="event.stopPropagation();">🤍 Save</button>
+                </div>
+            </div>
         </div>
         
         <div id="loading-spinner" class="spinner hidden"></div>
