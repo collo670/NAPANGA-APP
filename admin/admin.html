@@ -1,261 +1,468 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - RentEase Africa</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4361ee">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NyumbaFinder - Agent Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lato:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #15803d;
+      --orange: #f97316;
+      --bg: #f8fafc;
+      --white: #fff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --muted-2: #94a3b8;
+      --border: #e2e8f0;
+      --soft-green-bg: #f0fdf4;
+      --soft-green-border: #bbf7d0;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 16px auto 40px; /* add space below header */
+      padding: 0 20px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 5; /* above page bg, below nav by default */
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .card.success {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .header-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    h1,h2,h3 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      color: var(--text);
+    }
+
+    h2.title {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    p.subtext {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .field {
+      margin-top: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569; /* slate-600 */
+    }
+
+    .field input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
+
+    .field input:focus {
+      border-color: var(--green);
+    }
+
+    .field input.invalid {
+      border-color: #ef4444; /* red-500 */
+    }
+
+    .hint {
+      background: var(--soft-green-bg);
+      border: 1px solid var(--soft-green-border);
+      color: #166534; /* green-800 */
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(0.95);
+    }
+
+    .centered-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted-2);
+      margin-top: 14px;
+      font-weight: 600;
+    }
+
+    .centered-note a {
+      color: var(--green);
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .celebrate {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .success p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0 0 8px 0;
+    }
+
+    .success .minor {
+      font-size: 14px;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .hidden { display: none; }
+
+    /* Post-nav wrapper to nest all admin content */
+    .page-content {
+      padding-top: 12px;
+      padding-bottom: 24px;
+      background: transparent;
+      /* Add a subtle visual cue so it's noticeable */
+      border-top: 1px solid transparent;
+    }
+  /* Sticky header elevation and overlap behavior */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20; /* above container default */
+      background: #fff;
+    }
+
+      </style>
 </head>
-<body class="admin-body">
-    <!-- Login Overlay -->
-    <div id="login-overlay" class="login-overlay">
-        <div class="login-modal">
-            <h2>Admin Login</h2>
-            <form id="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-        </div>
-    </div>
+<body>
+    <!-- Header copied from root index.html (paths adjusted) -->
+    <header class="header">
+        <nav class="nav-container">
 
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" class="admin-dashboard hidden">
-        <!-- Sidebar -->
-        <aside class="admin-sidebar">
-            <div class="sidebar-header">
-                <h2>RentEase Admin</h2>
+            <div class="brand">
+                <div class="brand-icon">NA</div>
+                <span class="brand-name">PANGA</span>
             </div>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-section="dashboard">📊 Dashboard</a>
-                <a href="#" class="nav-item" data-section="add-property">➕ Add Property</a>
-                <a href="#" class="nav-item" data-section="manage-listings">📋 Manage Listings</a>
-                <a href="#" class="nav-item" data-section="countries">🌍 Countries Overview</a>
-                <a href="#" class="nav-item" data-section="bookings">📅 Bookings</a>
-                <a href="#" class="nav-item" data-section="messages">💬 Messages</a>
-                <a href="#" class="nav-item logout" id="logout-btn">🚪 Logout</a>
-            </nav>
-        </aside>
+            <div class="nav-links">
+                <a href="../index.html" class="active">Home</a>
+                <a href="#" id="favorites-link">Favorites</a>
+                <a href="./admin.html" class="admin-link">Admin</a>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menu">
+                    <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="3" y1="6" x2="21" y2="6" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="18" x2="21" y2="18" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: none;">
+                        <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-        <!-- Main Content Area -->
-        <main class="admin-main">
-            <!-- Dashboard Section -->
-            <section id="dashboard-section" class="admin-section active">
-                <h2>Dashboard Overview</h2>
-                <div class="stats-grid" id="stats-grid">
-                    <!-- Stats will be loaded here -->
-                </div>
-            </section>
-
-            <!-- Add Property Section -->
-            <section id="add-property-section" class="admin-section">
-                <h2>Add New Property</h2>
-                <form id="property-form" class="property-form">
-                    <!-- Country Selector -->
-                    <div class="form-group">
-                        <label>Country *</label>
-                        <select id="country" required>
-                            <option value="">Select Country</option>
-                            <option value="Kenya">Kenya (KES)</option>
-                            <option value="Tanzania">Tanzania (TZS)</option>
-                            <option value="Uganda">Uganda (UGX)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>City *</label>
-                            <input type="text" id="city" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Area *</label>
-                            <input type="text" id="area" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Property Title *</label>
-                        <input type="text" id="title" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Description *</label>
-                        <textarea id="description" rows="4" required></textarea>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Property Type *</label>
-                            <select id="property-type" required>
-                                <option value="Apartment">Apartment</option>
-                                <option value="House">House</option>
-                                <option value="Studio">Studio</option>
-                                <option value="Villa">Villa</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Bedrooms *</label>
-                            <input type="number" id="bedrooms" min="0" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Bathrooms *</label>
-                            <input type="number" id="bathrooms" min="1" step="0.5" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Size (sqm) *</label>
-                            <input type="number" id="size" min="1" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Price *</label>
-                            <input type="number" id="price" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Currency</label>
-                            <input type="text" id="currency" readonly value="KES">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Payment Type *</label>
-                            <select id="payment-type" required>
-                                <option value="Monthly">Monthly</option>
-                                <option value="Yearly">Yearly</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Status *</label>
-                            <select id="status" required>
-                                <option value="Available">Available</option>
-                                <option value="Rented">Rented</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Amenities -->
-                    <div class="form-group">
-                        <label>Amenities</label>
-                        <div class="amenities-grid">
-                            <label><input type="checkbox" value="WiFi"> WiFi</label>
-                            <label><input type="checkbox" value="Parking"> Parking</label>
-                            <label><input type="checkbox" value="Pool"> Pool</label>
-                            <label><input type="checkbox" value="Gym"> Gym</label>
-                            <label><input type="checkbox" value="Security"> Security</label>
-                            <label><input type="checkbox" value="Furnished"> Furnished</label>
-                            <label><input type="checkbox" value="Air Conditioning"> Air Conditioning</label>
-                            <label><input type="checkbox" value="Kitchen"> Kitchen</label>
-                        </div>
-                    </div>
-
-                    <!-- Image Upload -->
-                    <div class="form-group">
-                        <label>Images *</label>
-                        <input type="file" id="images" accept="image/*" multiple required>
-                        <div id="image-preview" class="image-preview"></div>
-                    </div>
-
-                    <!-- Featured Toggle -->
-                    <div class="form-group featured-toggle">
-                        <label>
-                            <input type="checkbox" id="featured"> Mark as Featured
-                        </label>
-                    </div>
-
-                    <!-- Property ID Preview -->
-                    <div class="form-group">
-                        <label>Property ID (Auto-generated)</label>
-                        <input type="text" id="property-id" readonly placeholder="Will be generated">
-                    </div>
-
-                    <button type="submit" class="btn-primary">Add Property</button>
-                </form>
-            </section>
-
-            <!-- Manage Listings Section -->
-            <section id="manage-listings-section" class="admin-section">
-                <h2>Manage Listings</h2>
-                
-                <!-- Filters -->
-                <div class="listing-filters">
-                    <select id="listing-country-filter">
-                        <option value="">All Countries</option>
-                        <option value="Kenya">Kenya</option>
-                        <option value="Tanzania">Tanzania</option>
-                        <option value="Uganda">Uganda</option>
-                    </select>
-                    
-                    <select id="listing-status-filter">
-                        <option value="">All Status</option>
-                        <option value="Available">Available</option>
-                        <option value="Rented">Rented</option>
-                    </select>
-                    
-                    <input type="text" id="listing-search" placeholder="Search listings...">
-                </div>
-                
-                <!-- Listings Table -->
-                <div class="table-responsive">
-                    <table class="listings-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Country</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Featured</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="listings-table-body">
-                            <!-- Listings will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Countries Overview Section -->
-            <section id="countries-section" class="admin-section">
-                <h2>Countries Overview</h2>
-                <div class="countries-stats" id="countries-stats">
-                    <!-- Stats will be loaded here -->
-                </div>
-            </section>
-
-            <!-- Bookings Section -->
-            <section id="bookings-section" class="admin-section">
-                <h2>Bookings</h2>
-                <p class="coming-soon">Booking management coming soon...</p>
-            </section>
-
-            <!-- Messages Section -->
-            <section id="messages-section" class="admin-section">
-                <h2>Messages</h2>
-                <p class="coming-soon">Messages feature coming soon...</p>
-            </section>
-        </main>
-    </div>
-
-    <!-- Edit Property Modal -->
-    <div id="edit-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Edit Property</h2>
-            <form id="edit-property-form" class="property-form">
-                <!-- Same fields as add property form, will be populated dynamically -->
-            </form>
+    <!-- MOBILE NAVIGATION DROPDOWN -->
+    <nav class="mobile-nav-dropdown" id="mobile-nav-dropdown">
+        <div class="mobile-nav-content">
+            <a href="../index.html" class="mobile-nav-link active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="../public/pages/house.html" class="mobile-nav-link" id="favorites-link-mobile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>Favorites</span>
+            </a>
+            <a href="./admin.html" class="mobile-nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/>
+                </svg>
+                <span>Admin</span>
+            </a>
         </div>
-    </div>
+    </nav>
 
-    <script src="db.js"></script>
-    <script src="admin.js"></script>
+  <div id="admin-content" class="page-content">
+  <main class="container">
+    <!-- Agent Registration View -->
+    <section id="formView" aria-labelledby="agent-title">
+      <form id="agentForm" novalidate>
+        <div class="field" id="name-field">
+          <label for="name">Full Name</label>
+          <input id="name" name="name" type="text" placeholder="e.g. Amina Khalid" required />
+
+          <div class="field">
+            <label for="agency">Agency / Company Name</label>
+            <input id="agency" name="agency" type="text" placeholder="e.g. Kilimani Properties" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number (WhatsApp)</label>
+            <input id="phone" name="phone" type="tel" placeholder="+255 7XX XXX XXX" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="agent@example.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Create Password</label>
+            <input id="password" name="password" type="password" placeholder="Min. 8 characters" minlength="8" required />
+          </div>
+
+          <div class="hint">✓ Your account will be reviewed and activated within 24 hours.</div>
+          <button type="submit" class="btn btn-primary">Submit Registration</button>
+
+          <p class="centered-note">
+            Already registered? <a id="loginLink" href="./index.html">Log in →</a>
+          </p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Success View -->
+    <section id="successView" class="card success hidden" aria-live="polite">
+      <div class="celebrate" aria-hidden="true">🎉</div>
+      <h2 class="title">Registration Submitted!</h2>
+      <p>Thank you for joining NyumbaFinder. Our team will review your details and activate your agent account within <strong>24 hours</strong>.</p>
+      <p class="minor">We'll notify you via WhatsApp and email once you're verified and ready to upload listings.</p>
+
+      <div class="actions">
+        <a id="backHomeBtn" class="btn-ghost" href="../index.html">Back to Home</a>
+        <button id="registerAnotherBtn" class="btn btn-primary" type="button">Register another agent</button>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <script>
+    (function() {
+      const form = document.getElementById('agentForm');
+      const formView = document.getElementById('formView');
+      const successView = document.getElementById('successView');
+      const registerAnotherBtn = document.getElementById('registerAnotherBtn');
+
+      function toggleViews(showSuccess) {
+        if (showSuccess) {
+          formView.classList.add('hidden');
+          successView.classList.remove('hidden');
+        } else {
+          successView.classList.add('hidden');
+          formView.classList.remove('hidden');
+        }
+      }
+
+      function validate() {
+        const fields = ['name','agency','phone','email','password'];
+        let valid = true;
+        fields.forEach(id => {
+          const el = document.getElementById(id);
+          el.classList.remove('invalid');
+          const val = (el.value || '').trim();
+          if (!val) {
+            el.classList.add('invalid');
+            valid = false;
+          }
+        });
+        const pw = document.getElementById('password');
+        if (pw.value.trim().length < 8) {
+          pw.classList.add('invalid');
+          valid = false;
+        }
+        return valid;
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!validate()) return;
+
+        // Persist a draft (optional UX nicety)
+        const data = Object.fromEntries(new FormData(form).entries());
+        try {
+          localStorage.setItem('nyumba_agent_application', JSON.stringify({
+            ...data,
+            submittedAt: new Date().toISOString()
+          }));
+        } catch (_) { /* ignore quota or private mode errors */ }
+
+        toggleViews(true);
+        // Optionally, here you could POST data to a backend endpoint.
+      });
+
+      registerAnotherBtn.addEventListener('click', function() {
+        form.reset();
+        ['name','agency','phone','email','password'].forEach(id => {
+          const el = document.getElementById(id);
+          el.classList.remove('invalid');
+        });
+        toggleViews(false);
+      });
+    })();
+  </script>
+<script>
+    // MOBILE MENU TOGGLE FUNCTIONALITY (copied from root index, adapted)
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNavDropdown = document.getElementById('mobile-nav-dropdown');
+    const hamburgerIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.hamburger-icon') : null;
+    const closeIcon = mobileMenuToggle ? mobileMenuToggle.querySelector('.close-icon') : null;
+
+    // Create overlay element
+    const mobileNavOverlay = document.createElement('div');
+    mobileNavOverlay.className = 'mobile-nav-overlay';
+    mobileNavOverlay.id = 'mobile-nav-overlay';
+    document.body.appendChild(mobileNavOverlay);
+
+    function toggleMobileMenu() {
+        const isOpen = mobileNavDropdown.classList.contains('active');
+        if (isOpen) {
+            mobileNavDropdown.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            if (hamburgerIcon) hamburgerIcon.style.display = 'block';
+            if (closeIcon) closeIcon.style.display = 'none';
+            document.body.style.overflow = '';
+        } else {
+            mobileNavDropdown.classList.add('active');
+            mobileNavOverlay.classList.add('active');
+            if (hamburgerIcon) hamburgerIcon.style.display = 'none';
+            if (closeIcon) closeIcon.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    // Close menu when clicking overlay
+    if (mobileNavOverlay) {
+        mobileNavOverlay.addEventListener('click', () => {
+            if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
+    }
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNavDropdown && mobileNavDropdown.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    });
+
+    // SHOW/HIDE DESKTOP NAV BASED ON SCREEN SIZE
+    function handleResponsiveNav() {
+        const desktopNav = document.querySelector('.nav-links');
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileNavDropdown = document.querySelector('.mobile-nav-dropdown');
+        if (window.innerWidth >= 768) {
+            if (desktopNav) desktopNav.style.display = 'flex';
+            if (mobileMenuToggle) mobileMenuToggle.style.display = 'none';
+            if (mobileNavDropdown) mobileNavDropdown.classList.remove('active');
+            if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+        } else {
+            if (desktopNav) desktopNav.style.display = 'none';
+            if (mobileMenuToggle) mobileMenuToggle.style.display = 'flex';
+        }
+    }
+
+    handleResponsiveNav();
+    window.addEventListener('resize', handleResponsiveNav);
+  </script>
 </body>
 </html>
